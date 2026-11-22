@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ירח דבש ביפן</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6F1; --card:#FFFFFF; --ink:#1F2F5C; --ink2:#68708E; --line:#EEE6DF; --soft:#FCEEF0;
+  --honey:#F2A900; --honey-ink:#96690A; --red:#E8452C; --red-soft:#FDE9E4; --ok:#6A8F3A; --orb:#E8452C;
+  --tokyo:#E8452C; --kanazawa:#D39A00; --osaka:#1B95A6; --kyoto:#7B5BA8; --hakone:#6A8F3A;
+  --night1:#1F3A6E; --night2:#3F66B0; --bar:rgba(255,255,255,.9); --barline:rgba(31,47,92,.10);
+  --lift:0 10px 30px -14px rgba(31,47,92,.3);
+  --display:"Frank Ruhl Libre","David Libre","Times New Roman",serif;
+  --body:"Assistant","Arial Hebrew","Segoe UI",Arial,sans-serif;
+  --jp:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP","Hiragino Sans","Noto Sans JP",serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#090D22; --card:#141938; --ink:#EEF0FA; --ink2:#A0A6C8; --line:#252B52; --soft:#1B2147;
+    --honey:#F4BE55; --honey-ink:#F4BE55; --red:#F2604F; --red-soft:#3A1C24; --ok:#9CC56A; --orb:#F4BE55;
+    --tokyo:#F27A52; --kanazawa:#DDB54A; --osaka:#4DB9CC; --kyoto:#A58AD6; --hakone:#9CC56A;
+    --night1:#060920; --night2:#222A66; --bar:rgba(20,25,56,.88); --barline:rgba(255,255,255,.10);
+    --lift:0 10px 30px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#090D22; --card:#141938; --ink:#EEF0FA; --ink2:#A0A6C8; --line:#252B52; --soft:#1B2147;
+  --honey:#F4BE55; --honey-ink:#F4BE55; --red:#F2604F; --red-soft:#3A1C24; --ok:#9CC56A; --orb:#F4BE55;
+  --tokyo:#F27A52; --kanazawa:#DDB54A; --osaka:#4DB9CC; --kyoto:#A58AD6; --hakone:#9CC56A;
+  --night1:#060920; --night2:#222A66; --bar:rgba(20,25,56,.88); --barline:rgba(255,255,255,.10);
+  --lift:0 10px 30px -12px rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--honey);outline-offset:2px}
+bdi{unicode-bidi:isolate}.ltr{unicode-bidi:isolate;direction:ltr;display:inline-block}
+.jp{font-family:var(--jp)}
+main{max-width:620px;margin:0 auto;padding:16px 16px calc(112px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3{margin:0;line-height:1.15}
+.view[hidden]{display:none}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:2px 4px 14px}
+.top .brand{font-family:var(--display);font-weight:900;font-size:23px;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.top .brand::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--orb);box-shadow:0 0 0 5px color-mix(in srgb,var(--orb) 20%,transparent)}
+.top .side{display:flex;gap:6px;align-items:center}
+.modebtn{font-size:12.5px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 11px;white-space:nowrap}
+.sync{white-space:nowrap}
+.sync{font-size:12.5px;color:var(--ink2);display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 11px}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--ink2);display:inline-block}
+.sync.on i{background:var(--ok)}
+
+/* hero: night sky over the city */
+.hero{position:relative;border-radius:26px 26px 0 0;overflow:hidden;color:var(--htext);min-height:290px;padding:20px 22px 0;
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 58%,var(--sky3) 100%)}
+.hero.night{--sky1:#0B1030;--sky2:#2A3273;--sky3:color-mix(in srgb,var(--c,#7B5BA8) 55%,#2A3273);--sfar:#1A2260;--smid:#10163F;--snear:#070A20;--sfuji:#2B3580;--swheel:#5560B8;--slight:#F6C55A;--htext:#fff;--hnum:#F6C55A;--pill:rgba(255,255,255,.14);--pillb:rgba(255,255,255,.22);--stars:1;--hsh:0 1px 10px rgba(6,9,32,.6)}
+.hero.day{--sky1:#7EC0E6;--sky2:#D3EAF6;--sky3:#FCDDE3;--sfar:#B7CDEB;--smid:#8AA7D8;--snear:#2B4C8C;--sfuji:#7F9DD4;--swheel:#6384C4;--slight:#FFF1B8;--htext:#1F2F5C;--hnum:#E8452C;--pill:rgba(255,255,255,.62);--pillb:rgba(255,255,255,.85);--stars:0;--hsh:0 1px 8px rgba(255,255,255,.7)}
+.hero.dusk{--sky1:#35367F;--sky2:#E67A90;--sky3:#FBC47C;--sfar:#7D579F;--smid:#4C367F;--snear:#1C1542;--sfuji:#6B4B9D;--swheel:#3B2B72;--slight:#FFE08A;--htext:#fff;--hnum:#FFE9B5;--pill:rgba(255,255,255,.18);--pillb:rgba(255,255,255,.32);--stars:.35;--hsh:0 1px 10px rgba(28,21,66,.55)}
+.sf{fill:var(--sfar)}.sm{fill:var(--smid)}.sn{fill:var(--snear)}.sr{fill:#E8452C}.sh{fill:var(--slight)}.sth{stroke:var(--slight);fill:none}.stw{stroke:var(--swheel)}.sfj{fill:var(--sfuji)}
+.hero .stars{opacity:var(--stars)}
+.hero svg.sky{position:absolute;inset:0;width:100%;height:100%}
+.hero .htop,.hero .hnum{position:relative}
+.hero .htop{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600}
+.hero .pill{background:var(--pill);border:1px solid var(--pillb);border-radius:99px;padding:3px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hero .pill.city{background:var(--c);border-color:transparent;color:#fff}
+.hero .hnum{font-family:var(--display);font-weight:500;font-size:22px;margin-top:18px;text-shadow:var(--hsh);line-height:1;display:flex;align-items:baseline;gap:10px}
+.hero .hnum b{font-weight:900;font-size:84px;line-height:.8;color:var(--hnum);letter-spacing:-.02em}
+.under .htitle{font-family:var(--display);font-weight:900;font-size:26px;line-height:1.2;padding:16px 4px 0}
+.under{background:var(--card);border-radius:0 0 26px 26px;padding:0 18px 16px;box-shadow:var(--lift)}
+.under .progress{margin:0 -18px;border-radius:0;height:5px}
+.under .progress span{border-radius:0}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.facts>div{padding:13px 4px 0;font-size:13px;color:var(--ink2)}
+.facts b{display:block;font-size:16.5px;color:var(--ink);font-weight:700;line-height:1.3}
+
+.block{background:var(--card);border-radius:22px;padding:18px;margin-top:14px;border:1px solid var(--line)}
+.block h2{font-family:var(--display);font-weight:900;font-size:25px;margin-bottom:8px}
+.block h3{font-size:16px;font-weight:700}
+.muted{color:var(--ink2);font-size:14.5px}
+.sec{margin-top:20px}
+.sec:first-of-type{margin-top:6px}
+.sechead{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.sechead h3{background:var(--soft);border-radius:99px;padding:4px 13px;font-size:14.5px}
+.sechead .time{font-size:13.5px;color:var(--ink2)}
+.sec.now .sechead h3{background:var(--red);color:#fff}
+.sec.now .sechead h3::after{content:" · עכשיו";font-weight:600}
+.stop{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:9px 0}
+.stop:not(:last-child)::before{content:"";position:absolute;inset-inline-start:14px;top:42px;bottom:-8px;width:2px;background:var(--line);border-radius:2px}
+.stop.done:not(:last-child)::before{background:var(--red)}
+.chk{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--card);display:grid;place-items:center;padding:0;margin-top:1px;transition:transform .15s,background .15s}
+.chk:active{transform:scale(.88)}
+.chk svg{width:15px;height:15px;opacity:0}
+.stop.done .chk{background:var(--red);border-color:var(--red)}
+.stop.done .chk svg{opacity:1}
+.stop.done .name{color:var(--ink2)}
+.stop .name{font-weight:700;line-height:1.3;font-size:16.5px}
+.stop .note{font-size:14.5px;color:var(--ink2);line-height:1.4;margin-top:2px}
+.map{width:36px;height:36px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--ink);text-decoration:none}
+.map svg{width:17px;height:17px}
+.bonus{background:color-mix(in srgb,var(--honey) 16%,var(--card));border-radius:16px;padding:12px 14px;margin-top:16px;font-size:15px;display:flex;gap:10px}
+.bonus::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--honey);margin-top:6px}
+textarea{width:100%;min-height:92px;border:1.5px solid var(--line);border-radius:14px;background:var(--soft);padding:11px 13px;resize:vertical}
+.addbtn{width:100%;margin-top:16px;border:1.5px dashed var(--ink2);background:transparent;border-radius:14px;padding:11px;font-weight:700;color:var(--ink2)}
+.addform{margin-top:16px;background:var(--soft);border-radius:16px;padding:14px;display:grid;gap:8px}
+.addform input{width:100%;border:1.5px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px}
+.addform .row{margin-top:2px}
+.picks{display:flex;flex-wrap:wrap;gap:6px}
+.pick{border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:4px 13px;font-weight:600;font-size:14.5px}
+.pick[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mine{font-size:11.5px;font-weight:700;color:var(--honey-ink);background:color-mix(in srgb,var(--honey) 20%,transparent);border-radius:99px;padding:1px 8px;margin-inline-start:8px;vertical-align:1px;white-space:nowrap}
+.del{border:0;background:none;padding:2px 0;font-size:13px;color:var(--ink2);text-decoration:underline}
+.acts{display:flex;gap:6px}
+.star{width:36px;height:36px;border-radius:50%;border:0;background:var(--soft);display:grid;place-items:center;color:var(--ink2);padding:0}
+.star svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.star[aria-pressed="true"]{background:color-mix(in srgb,var(--honey) 28%,var(--card));color:var(--honey-ink)}
+.star[aria-pressed="true"] svg{fill:var(--honey);stroke:var(--honey)}
+.favs{background:color-mix(in srgb,var(--honey) 13%,var(--card));border:1.5px solid color-mix(in srgb,var(--honey) 45%,transparent);border-radius:16px;padding:12px 14px;margin:4px 0 8px}
+.favhead{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--honey-ink);margin-bottom:4px}
+.favhead b{font-size:16px}
+.favrow{display:flex;gap:10px;align-items:center;padding:6px 0}
+.favrow .name{font-weight:700;line-height:1.3}
+.favrow.done .chk{background:var(--red);border-color:var(--red)}.favrow.done .chk svg{opacity:1}
+.favrow.done .name{color:var(--ink2);text-decoration:line-through}
+.favhint{margin:0 0 4px}
+.favpick[aria-pressed="true"]{background:var(--honey);border-color:var(--honey);color:#1F2F5C}
+.progress{height:7px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:10px}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--honey),var(--red));border-radius:4px;transition:width .35s}
+
+/* day rail */
+.rail{display:flex;overflow-x:auto;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.st{flex:none;width:52px;background:none;border:0;padding:0;text-align:center;position:relative}
+.st::before{content:"";position:absolute;top:21px;left:0;right:0;height:4px;background:var(--c)}
+.st:first-child::before{right:50%}.st:last-child::before{left:50%}
+.st .dot{position:relative;width:36px;height:36px;border-radius:50%;background:var(--card);border:3px solid var(--c);margin:5px auto 0;display:grid;place-items:center;font-weight:700;font-size:15px;line-height:1;transition:transform .15s}
+.st .wd{font-size:12px;color:var(--ink2);margin-top:5px}
+.st[aria-current="true"] .dot{background:var(--c);color:#fff;transform:scale(1.22);box-shadow:0 4px 12px -3px var(--c)}
+.st.today .wd{color:var(--red);font-weight:700}
+.dayhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dayhead .tag{font-size:13px;font-weight:700;color:#fff;background:var(--c);border-radius:99px;padding:3px 12px;white-space:nowrap}
+.daytitle{font-family:var(--display);font-weight:900;font-size:30px;line-height:1.1;margin:10px 0 6px}
+
+/* tools */
+.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
+.night{background:linear-gradient(160deg,var(--night1),var(--night2));color:#fff;border-color:transparent}
+.night .muted,.night label{color:rgba(255,255,255,.7)}
+.conv label{font-size:13px;display:block}
+.conv input{width:100%;font-family:var(--display);font-size:38px;font-weight:900;border:0;border-bottom:2px solid rgba(255,255,255,.3);background:transparent;padding:0 2px;direction:ltr;text-align:start;color:#fff;border-radius:0}
+.conv #ils{color:#F6C55A}
+.conv .eq{font-family:var(--display);font-size:30px;padding-bottom:6px;opacity:.6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;border-radius:99px;padding:5px 13px;font-weight:600;font-size:15px}
+.rate{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:15px}
+.rate input{width:70px;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.1);padding:3px 8px;direction:ltr;color:#fff}
+.phrase{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 0;border:0;border-bottom:1px solid var(--line);align-items:center;width:100%;background:none;text-align:start}
+.phrase:last-child{border-bottom:0}
+.phrase .he{font-weight:700}
+.phrase .ja{font-family:var(--jp);font-size:17px;direction:ltr;text-align:end}
+.phrase .ro{font-size:13.5px;color:var(--ink2);direction:ltr;text-align:end}
+.phrase .show{font-size:13px;font-weight:700;background:var(--soft);border-radius:99px;padding:6px 13px;white-space:nowrap}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:14px;padding:11px 18px;font-weight:700;display:inline-block}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.answer{white-space:pre-wrap;background:var(--soft);border-radius:14px;padding:13px;margin-top:12px;font-size:16px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:15.5px;margin:0}
+.kv dt{font-weight:700}.kv dd{margin:0;color:var(--ink2)}
+.lug{display:flex;gap:12px;align-items:center;font-size:15.5px}
+.lug .ic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:19px}
+
+.overlay{position:fixed;inset:0;background:linear-gradient(180deg,var(--night1),var(--night2));color:#fff;z-index:50;display:grid;place-items:center;padding:calc(24px + env(safe-area-inset-top,0px)) 22px calc(24px + env(safe-area-inset-bottom,0px));text-align:center}
+.overlay[hidden]{display:none}
+.overlay .bigja{font-family:var(--jp);font-weight:700;font-size:clamp(36px,10vw,64px);line-height:1.35;direction:ltr}
+.overlay .bigro{font-size:18px;opacity:.7;margin-top:16px;direction:ltr}
+.overlay .bighe{font-size:20px;font-weight:700;margin-top:6px;color:#F6C55A}
+.overlay .btn{background:#fff;color:#0B1030}.overlay .btn.ghost{background:rgba(255,255,255,.14);color:#fff}
+
+/* stamp book */
+.book{background-image:radial-gradient(var(--line) 1.2px,transparent 1.3px);background-size:18px 18px;background-position:9px 9px}
+.stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px 6px;margin-top:18px}
+.stamp{text-align:center}
+.stamp svg{width:86px;height:86px;display:block;margin:0 auto;color:var(--line)}
+.stamp.on svg{color:var(--red);transform:rotate(var(--r,-6deg));filter:url(#ink)}
+.stamp.pop svg{animation:press .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes press{from{transform:scale(1.9) rotate(10deg);opacity:0}to{opacity:1}}
+.stamp .lbl{font-size:14px;font-weight:700;line-height:1.2;margin-top:6px}
+.stamp .cnt{font-size:12.5px;color:var(--ink2)}
+.stamp:not(.on) .lbl{color:var(--ink2)}
+.counter{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.counter:last-child{border-bottom:0}
+.counter .n{font-family:var(--display);font-weight:900;font-size:28px;min-width:38px;text-align:center;line-height:1;color:var(--honey-ink)}
+.counter button{width:38px;height:38px;border-radius:50%;border:0;background:var(--soft);font-size:22px;line-height:1;padding:0}
+.bk{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.bk:last-child{border-bottom:0}
+.bk.done .name{color:var(--ink2);text-decoration:line-through}
+.bk.done .chk{background:var(--ok);border-color:var(--ok)}.bk.done .chk svg{opacity:1}
+.bk .when{font-size:12.5px;font-weight:700;color:var(--honey-ink);background:color-mix(in srgb,var(--honey) 18%,transparent);border-radius:99px;padding:1px 9px;display:inline-block}
+.todo{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.todo:last-of-type{border-bottom:0}
+
+/* floating tab bar */
+nav.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:0 14px calc(12px + env(safe-area-inset-bottom,0px));z-index:20;pointer-events:none}
+nav.tabs .in{pointer-events:auto;display:grid;grid-template-columns:repeat(5,1fr);width:100%;max-width:440px;background:var(--bar);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--barline);border-radius:24px;padding:6px;box-shadow:var(--lift)}
+nav.tabs a{text-decoration:none;color:var(--ink2);text-align:center;padding:6px 2px 7px;font-size:12.5px;font-weight:600;border-radius:18px;transition:background .2s,color .2s}
+nav.tabs a .k{display:block;font-family:var(--jp);font-weight:700;font-size:20px;line-height:1.25}
+nav.tabs a[aria-current="page"]{background:var(--red);color:#fff}
+.toast{position:fixed;bottom:calc(100px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--red);color:#fff;padding:10px 20px;border-radius:99px;font-weight:700;z-index:40;max-width:90vw;text-align:center;box-shadow:var(--lift)}
+.toast[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><div class="brand">ירח דבש ביפן</div><div class="side"><button class="modebtn" id="modeBtn" aria-label="מצב תצוגה: אוטומטי, יום או לילה">אוטומטי</button><div class="sync" id="sync" title="מצב השמירה של הסימונים"><i></i><span>במכשיר</span></div></div></div>
+  <section class="view" id="v-today"></section>
+  <section class="view" id="v-route" hidden></section>
+  <section class="view" id="v-tools" hidden></section>
+  <section class="view" id="v-stamps" hidden></section>
+  <section class="view" id="v-bookings" hidden></section>
+</main>
+<nav class="tabs" aria-label="ניווט"><div class="in">
+  <a href="#today" data-tab="today"><span class="k">今</span>היום</a>
+  <a href="#route" data-tab="route"><span class="k">道</span>מסלול</a>
+  <a href="#tools" data-tab="tools"><span class="k">具</span>כלים</a>
+  <a href="#stamps" data-tab="stamps"><span class="k">印</span>חותמות</a>
+  <a href="#bookings" data-tab="bookings"><span class="k">券</span>הזמנות</a>
+</div></nav>
+<div class="overlay" id="overlay" hidden role="dialog" aria-modal="true"><div>
+  <div class="bigja" id="ovJa"></div><div class="bigro" id="ovRo"></div><div class="bighe" id="ovHe"></div>
+  <div class="row" style="justify-content:center;margin-top:28px"><button class="btn ghost" id="ovSpeak" hidden>השמיעו</button><button class="btn" id="ovClose">סגירה</button></div>
+</div></div>
+<div class="toast" id="toast" hidden role="status"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="1" seed="9" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.75" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
+
+<script>
+"use strict";
+/* ---------- data ---------- */
+const CITY={
+  tokyo:{he:"טוקיו",jp:"東京",c:"var(--tokyo)",sun:"16:28"},
+  kanazawa:{he:"קנאזווה",jp:"金沢",c:"var(--kanazawa)",sun:"16:38"},
+  osaka:{he:"אוסקה",jp:"大阪",c:"var(--osaka)",sun:"16:47"},
+  kyoto:{he:"קיוטו",jp:"京都",c:"var(--kyoto)",sun:"16:46"},
+  hakone:{he:"האקונה",jp:"箱根",c:"var(--hakone)",sun:"16:32"}
+};
+const HOTEL={tokyo1:"Tokyu Stay Tsukiji",kanazawa:"Hotel Amanek Kanazawa",osaka:"Karaksa Hotel Osaka Namba",kyoto:"The Royal Park Canvas",hakone:"Tsukinoyado Sara",tokyo2:"Bespoke Hotel Shinjuku"};
+// stop: [שם, שאילתת מפה, הערה, תגית]
+const DAYS=[
+{d:"2026-11-29",city:"tokyo",hotel:HOTEL.tokyo1,title:"נחיתה בטוקיו",bonus:"יום באיזי, טוקיו מחכה לנו.",secs:[
+ ["ערב","16:00–22:00",[
+  ["נחיתה בנאריטה","Narita Airport","16:00. ביקורת גבולות, מזוודות, רכבת לעיר."],
+  ["צ׳ק-אין במלון","Tokyu Stay Tsukiji","Tokyu Stay Tsukiji."],
+  ["סיבוב ראשון ליד המלון","Tsukiji Tokyo","משהו קטן לאכול, קונביני ראשון, ולישון."]]]]},
+{d:"2026-11-30",city:"tokyo",hotel:HOTEL.tokyo1,title:"מארונוצ׳י וגינזה",bonus:"מופע האורות Tokyo Snow Dome City פתוח 17:00–00:00, 13 דקות נסיעה מגינזה. זה היום הכי עמוס, מיד אחרי הטיסה: מותר לוותר על חצי.",secs:[
+ ["בוקר","08:00–12:30",[
+  ["ארוחת בוקר בשוק צוקיג׳י","Tsukiji Outer Market","השוק החיצוני, ממש ליד המלון."],
+  ["תחנת טוקיו ורחבת Marunouchi","Tokyo Station Marunouchi","חזית הלבנים האדומות באור בוקר."],
+  ["Kokyo Gaien","Kokyo Gaien National Garden","גני החוץ של הארמון הקיסרי."],
+  ["Tokyo Character Street","Tokyo Character Street","נינטנדו, פוקימון, ג׳יבלי ו-Shonen Jump בתוך התחנה."],
+  ["Tokyo International Forum","Tokyo International Forum","הגשרים השקופים באטריום הזכוכית."]]],
+ ["צהריים","12:30–16:45",[
+  ["BIC Camera Yurakucho","BIC Camera Yurakucho","7 קומות אלקטרוניקה וגיימינג."],
+  ["Ginza Loft ו-Itoya","Ginza Itoya","עיצוב וכלי כתיבה יפניים."],
+  ["Glitch Coffee Ginza","Glitch Coffee Ginza","אספרסו חד-זני."],
+  ["Nissan Crossing","Nissan Crossing Ginza","רכבי קונספט והדפסה על קצף הקפה בקומה 2."],
+  ["Uniqlo Ginza","Uniqlo Ginza Flagship","12 קומות, כולל הדפסת חולצות UTme!."],
+  ["Dover Street Market","Dover Street Market Ginza","סטריטוור וסניקרס נדירות."],
+  ["גג GINZA SIX","Ginza Six Garden","תצפית חינמית לשקיעה ב-16:28.","vw"]]],
+ ["ערב","17:30–21:00",[
+  ["ארוחת ערב ב-Ushigoro Ginza","Ushigoro Ginza","וואגיו A5 על הגריל.","wg"],
+  ["Marunouchi Naka-dori","Marunouchi Naka-dori","שדרה עם יותר ממיליון נורות זהב.","il"],
+  ["KITTE Garden","KITTE Garden Tokyo","תצפית לילית חינמית על תחנת טוקיו.","vw"]]]]},
+{d:"2026-12-01",city:"tokyo",hotel:HOTEL.tokyo1,title:"אסאקוסה ואקיהבארה",bonus:"אפשר לשלב את פארק אואנו, בין אסאקוסה לאקיהבארה. מקום יפה לשוטט בו עם קפה.",secs:[
+ ["בוקר","09:00–12:30",[
+  ["שער קמינרימון ו-Nakamise","Kaminarimon","ישיר מתחנת Higashi-Ginza. דוכני מאצ׳ה ומתוקים."],
+  ["מקדש סנסו-ג׳י","Sensoji Temple","להגיע מוקדם, לפני העומס.","tp"],
+  ["תצפית מרכז המידע","Asakusa Culture Tourist Information Center","מרפסת חינמית מול המקדש והנהר.","vw"],
+  ["רחוב קאפאבאשי","Kappabashi Street","אוכל מפלסטיק וסכינים יפניות."],
+  ["Don Quijote Asakusa","Don Quijote Asakusa","מזכרות וקניות.","dq"]]],
+ ["צהריים","13:00–17:00",[
+  ["Yodobashi-Akiba","Yodobashi Akiba","9 קומות מחשוב, גיימינג ואודיו."],
+  ["Radio Kaikan","Akihabara Radio Kaikan","פיגורות, קלפים ואנימה."],
+  ["Super Potato, Animate, Mandarake","Super Potato Akihabara","רטרו, מנגה ופריטי אספנים."],
+  ["גשר מאנסייבאשי","mAAch ecute Kanda Manseibashi","בתי קפה מתחת לקשתות הלבנים."]]],
+ ["ערב","17:00–21:30",[
+  ["מגדלי הארקייד","GiGO Akihabara","GiGO, Taito ו-Namco. פתוח עד 23:00."],
+  ["מקדש קאנדה מיוג׳ין","Kanda Myojin","מקדש מואר, הפטרון של עולם ההייטק.","tp"],
+  ["ארוחת ערב: Roast Beef Ohno","Roast Beef Ohno Akihabara","חזרה ישירה בקו Hibiya לצוקיג׳י."]]]]},
+{d:"2026-12-02",city:"tokyo",hotel:HOTEL.tokyo1,title:"שימוקיטאזאווה ושינג׳וקו",secs:[
+ ["בוקר","09:30–14:00",[
+  ["מקדש גוטוקוג׳י","Gotokuji Temple","מאות חתולי מזל מנופפים.","tp"],
+  ["Shiro-Hige׳s Cream Puff Factory","Shirohige's Cream Puff Factory","פחזניות טוטורו. להגיע לפני שנגמר."],
+  ["שימוקיטאזאווה ו-Bonus Track","Bonus Track Shimokitazawa","שכונת הצעירים והגרפיטי."],
+  ["ציד וינטג׳","New York Joe Exchange Shimokitazawa","Soma, Flamingo, Stick Out, Chicago."],
+  ["קרפ ב-Andrea Crepes","Andrea Crepes Shimokitazawa","או קארי יפני מקומי."]]],
+ ["אחר הצהריים","14:15–16:00",[
+  ["שין-אוקובו","Shin-Okubo Korea Town","עוף מטוגן קוריאני, טוקבוקי ותפוחי אדמה מסולסלים."]]],
+ ["ערב","16:15–22:30",[
+  ["תצפית בניין העירייה","Tokyo Metropolitan Government Building Observatory","קומה 45, חינם. שקיעה ב-16:28.","vw"],
+  ["TOKYO Night & Light","Tokyo Metropolitan Government Building","מופע הקרנה על הבניין, מ-19:00.","il"],
+  ["Tokyu Kabukicho Tower","Tokyu Kabukicho Tower","אוכל ניאון בקומה 2 וארקייד בקומה 3."],
+  ["Shinjuku Batting Center","Shinjuku Batting Center","חבטות בייסבול."],
+  ["קבוקיצ׳ו בלילה","Don Quijote Kabukicho","דון קיחוטה, ראש הגודזילה והחתול התלת-ממדי.","dq"]]]]},
+{d:"2026-12-03",city:"tokyo",hotel:HOTEL.tokyo1,title:"הרג׳וקו ושיבויה",bonus:"לא לפספס את מיוטו! תצפית על מעבר החצייה יש גם בסטארבקס ובכל חנות בצומת.",secs:[
+ ["בוקר","09:00–13:00",[
+  ["פארק יויוגי ומקדש מייג׳י","Meiji Jingu","הליכה רגועה ביער בלב העיר.","tp"],
+  ["רחוב טקשיטה ו-B-Side Label","B-Side Label Harajuku","קאוואי וסטיקרים."],
+  ["Harry Potter Shop","Harry Potter Shop Harajuku","חנות דגל עם פריטים בלעדיים."],
+  ["אומוטסנדו ו-Cat Street","Cat Street Harajuku","קפה ב-Koffee Mameya או Fuglen. Supreme, BAPE, atmos."]]],
+ ["צהריים","13:00–16:00",[
+  ["Miyashita Park","Miyashita Park","פארק גג וחנויות. כאן נמצא Kith Tokyo."],
+  ["Pokémon Center Shibuya","Pokemon Center Shibuya","PARCO קומה 6. מיוטו במיכל, Nintendo Tokyo, Capcom.","pk"],
+  ["A Happy Pancake","A Happy Pancake Shibuya","פנקייקים יפניים אווריריים."]]],
+ ["ערב","16:00–22:00",[
+  ["Shibuya Sky","Shibuya Sky","כרטיסים ל-16:00, שקיעה ב-16:28.","vw"],
+  ["מעבר החצייה והאצ׳יקו","Shibuya Scramble Crossing",""],
+  ["Ao no Dokutsu","Yoyogi Park Keyaki Namiki","מנהרת האורות הכחולים, 17:45–18:30.","il"],
+  ["MEGA Don Quijote Shibuya","MEGA Don Quijote Shibuya","7 קומות, ו-UNIQLO Dogenzaka ליד.","dq"],
+  ["יאקיניקו ב-Han no Daidokoro","Han no Daidokoro Shibuya","חזרה ישירה בקו Ginza.","wg"]]]]},
+{d:"2026-12-04",city:"kanazawa",hotel:HOTEL.kanazawa,title:"שינקנסן לקנאזווה",secs:[
+ ["בוקר","08:30–12:00",[
+  ["משלוח מזוודות לאוסקה","Tokyu Stay Tsukiji","בקבלה, ל-Karaksa Hotel Osaka Namba. יוצאים עם תיק קטן."],
+  ["Hokuriku Shinkansen","Tokyo Station","להוציא כרטיסים עם ה-QR. כשעתיים וחצי.","sh"],
+  ["שער Tsuzumi-mon","Tsuzumi-mon Gate Kanazawa","שער העץ הענק ביציאה מהתחנה."]]],
+ ["צהריים","12:30–16:30",[
+  ["גן קנרוקואן","Kenrokuen","חבלי ה-Yukizuri על עצי האורן ושאריות שלכת."],
+  ["מוזיאון המאה ה-21","21st Century Museum of Contemporary Art Kanazawa","בריכת השחייה המזויפת."],
+  ["רובע היגאשי צ׳איה","Higashi Chaya District","גלידת עלה זהב ב-Hakuichi."]]],
+ ["ערב","17:00–21:30",[
+  ["Pokémon Center Kanazawa","Pokemon Center Kanazawa","בקניון Forus. פיקאצ׳ו בקימונו.","pk"],
+  ["ארוחת ערב: בקר נוטו","Noto beef Kanazawa Station","או Go! Go! Curry שנולד כאן.","wg"]]]]},
+{d:"2026-12-05",city:"kanazawa",hotel:HOTEL.kanazawa,title:"שיראקאווה-גו",secs:[
+ ["בוקר","08:30–12:00",[
+  ["אוטובוס לשיראקאווה-גו","Kanazawa Station East Gate Bus Terminal","כ-75 דקות. כרטיסים הוזמנו מראש.","shira"],
+  ["תצפית Shiroyama","Shiroyama Viewpoint Shirakawa-go","20 דקות עלייה ברגל או שאטל ב-200 ין.","vw"]]],
+ ["צהריים","12:00–15:30",[
+  ["בית Wada או Kanda","Wada House Shirakawa-go","כ-400 ין. האח המסורתית וקורות הגג."],
+  ["נשנושי רחוב","Shirakawa-go","שיפודי בקר הידה, קרוקט חם ודנגו."],
+  ["גשר Deai-bashi","Deai Bridge Shirakawa-go","הגשר התלוי ושיטוט בסמטאות."]]],
+ ["ערב","16:00–21:00",[
+  ["אוטובוס חזרה","Shirakawa-go Bus Terminal","סביב 16:00."],
+  ["Korinbo ו-Katamachi","Katamachi Kanazawa","יאקיניקו ואיזאקאיות חמימות."]]]]},
+{d:"2026-12-06",city:"osaka",hotel:HOTEL.osaka,title:"סמוראים ומעבר לאוסקה",secs:[
+ ["בוקר","09:30–12:00",[
+  ["רובע הסמוראים נגאמאצ׳י","Nomura Samurai House Kanazawa","בית Nomura-ke עם הגן והמפל."],
+  ["קפה ב-Kazuemachi","Kazuemachi Chaya District","על גדת הנהר, לפני איסוף התיקים."]]],
+ ["צהריים","12:30–15:30",[
+  ["רכבת לאוסקה","Kanazawa Station","שינקנסן ל-Tsuruga והחלפה ל-Thunderbird. כשעתיים ורבע.","sh"]]],
+ ["ערב","16:00–22:30",[
+  ["צ׳ק-אין ואיסוף מזוודות","Karaksa Hotel Osaka Namba","Karaksa Hotel Osaka Namba."],
+  ["Shinsaibashi-suji","Shinsaibashi-suji Shopping Street","מדרחוב מקורה ענק."],
+  ["דוטונבורי בלילה","Glico Sign Dotonbori","הניאונים והאצן של גליקו."],
+  ["Don Quijote Dotonbori","Don Quijote Dotonbori","עם גלגל הענק הצהוב.","dq"],
+  ["ארוחת ערב","Gyukatsu Motomura Namba","Gyukatsu Motomura או שיפודי וואגיו ברחוב."]]]]},
+{d:"2026-12-07",city:"osaka",hotel:HOTEL.osaka,title:"יוניברסל סטודיוס",secs:[
+ ["כל היום","09:30–21:00",[
+  ["הגעה לפארק","Universal Studios Japan","עם Express Pass 4 אפשר להגיע בנחת.","park"],
+  ["Super Nintendo World","Super Nintendo World Osaka","Mario Kart ו-Mine Cart Madness. כניסה מתוזמנת."],
+  ["עולם הארי פוטר","Wizarding World of Harry Potter Osaka","בירצפת ו-Forbidden Journey."],
+  ["JAWS או Jurassic Park","Universal Studios Japan",""],
+  ["קישוטי חג המולד ו-CityWalk","Universal CityWalk Osaka","מרצ׳נדייז ביציאה."]]]]},
+{d:"2026-12-08",city:"osaka",hotel:HOTEL.osaka,title:"אקווריום, סטריטוור ואומדה",secs:[
+ ["בוקר","09:30–12:30",[
+  ["משלוח מזוודות לקיוטו","Karaksa Hotel Osaka Namba","בקבלה, ל-The Royal Park Canvas."],
+  ["אקווריום קאיוקאן","Osaka Aquarium Kaiyukan","חלון 10:00. כריש לווייתני ומנטות."]]],
+ ["צהריים","13:00–16:45",[
+  ["אמריקמורה ו-Orange Street","Amerikamura Osaka","וינטג׳ וסניקרס. ארוחת צהריים קלילה."],
+  ["דנדן טאון","Nipponbashi Den Den Town","Super Potato, Animate, Mandarake, Joshin."]]],
+ ["ערב","17:00–22:00",[
+  ["Umeda Sky Building","Umeda Sky Building","תצפית הערב הפתוחה.","vw"],
+  ["Pokémon Center Osaka","Pokemon Center Osaka","גם Nintendo OSAKA ו-JUMP SHOP.","pk"],
+  ["יאקיניקו","Matsusakagyu Yakiniku M Namba","Matsusakagyu M או Rikimaru.","wg"]]]]},
+{d:"2026-12-09",city:"kyoto",hotel:HOTEL.kyoto,title:"מעבר לקיוטו",secs:[
+ ["בוקר","09:30–12:30",[
+  ["טירת אוסקה או Namba Parks","Osaka Castle Park","טיול קצר או השלמת קניות."],
+  ["רכבת לקיוטו","Osaka Station","25–30 דקות בלבד."]]],
+ ["צהריים","13:30–17:30",[
+  ["צ׳ק-אין","The Royal Park Canvas Kyoto","המזוודות מאוסקה מחכות."],
+  ["שוק נישיקי","Nishiki Market","נסגר ב-17:30, אז מתחילים בו."],
+  ["מקדש נישיקי טנמנגו","Nishiki Tenmangu","קיר הפנסים ופסל הפרה.","tp"],
+  ["Teramachi ו-Shinkyogoku","Shinkyogoku Shopping Street","מדרחובים מקורים."],
+  ["Nintendo KYOTO","Nintendo Kyoto Takashimaya","מריו ענק בקומה העליונה."],
+  ["Pokémon Center Kyoto","Pokemon Center Kyoto","במתחם SUINA Muromachi.","pk"]]],
+ ["ערב","18:00–22:00",[
+  ["סמטת פונטוצ׳ו ונהר הקאמו","Pontocho Alley","פנסי נייר, ארוחת ערב והליכה לאורך המים."]]]]},
+{d:"2026-12-10",city:"kyoto",hotel:HOTEL.kyoto,title:"מזרח קיוטו מצפון לדרום",bonus:"הכול באזור אחד וברגל. בסוף היום מונית או רכבת חזרה למלון.",secs:[
+ ["בוקר","09:00–13:00",[
+  ["מקדש הכסף גינקאקו-ג׳י","Ginkakuji","גני זן, חרוט חול לבן ויער טחב.","tp"],
+  ["מקדש הונן-אין","Honen-in","פנינה שקטה עם תלוליות חול.","tp"],
+  ["שביל הפילוסופים","Philosopher's Path Kyoto","הליכה דרומה עם עצירת קפה."],
+  ["אייקן-דו","Eikando Zenrinji","גרם המדרגות המפורסם.","tp"],
+  ["ננזן-ג׳י ו-Keage Incline","Nanzenji","אמת המים והמסילה הנטושה.","tp"]]],
+ ["אחר הצהריים","14:00–17:00",[
+  ["קיומיזו-דרה","Kiyomizudera","מרפסת העץ מעל קיוטו, באור של לפני שקיעה.","tp"],
+  ["Sannenzaka ו-Ninenzaka","Sannenzaka","חנות ג׳יבלי והסטארבקס על טטאמי."],
+  ["פגודת יאסאקה","Hokanji Yasaka Pagoda","עצירת צילום."],
+  ["קודאי-ג׳י ומקדש יאסאקה","Yasaka Shrine","על קודאי-ג׳י אפשר לוותר אם התעייפנו.","tp"]]],
+ ["ערב","17:00–21:30",[
+  ["גיון","Hanamikoji Street","Hanamikoji ותעלת Shirakawa. לא להיכנס לסמטאות פרטיות."],
+  ["ארוחת ערב","Pontocho Alley","בגיון או בפונטוצ׳ו."],
+  ["מדרגות תחנת קיוטו","Kyoto Station Grand Stairway","מופע האורות, אם נשאר כוח.","il"]]]]},
+{d:"2026-12-11",city:"kyoto",hotel:HOTEL.kyoto,title:"אראשיאמה ומקדש הזהב",secs:[
+ ["בוקר","08:00–12:30",[
+  ["יער הבמבוק","Arashiyama Bamboo Grove","מוקדם, לפני העומס."],
+  ["גני אוקוצ׳י סאנסו","Okochi Sanso Garden","תצפית וכוס מאצ׳ה."],
+  ["מקדש טנריו-ג׳י","Tenryuji","הגנים סביב האגם.","tp"],
+  ["גשר טוגטסוקיו והנהר","Togetsukyo Bridge","קפה ב-% Arabica."]]],
+ ["אחר הצהריים","13:30–16:30",[
+  ["מקדש הזהב קינקאקו-ג׳י","Kinkakuji","חצי שעה במונית או באוטובוס.","tp"],
+  ["ריואן-ג׳י","Ryoanji","אופציונלי. גן הסלעים, 20 דקות הליכה.","tp"]]],
+ ["ערב","17:30–22:00",[
+  ["ערב פנוי","Kawaramachi Kyoto","מנוחה במלון ואז ארוחה במרכז או Kyoto Ramen Koji."]]]]},
+{d:"2026-12-12",city:"kyoto",hotel:HOTEL.kyoto,title:"פושימי אינארי, נארה ואוג׳י",bonus:"הכול על קו JR Nara. המזוודות נשארות איתנו הלילה ונשלחות מחר בצ׳ק-אאוט.",secs:[
+ ["בוקר מוקדם","07:30–09:30",[
+  ["פושימי אינארי","Fushimi Inari Taisha","תחנת Inari, תחנה אחת מקיוטו. שערי הטוריאי בשקט.","tp"]]],
+ ["בוקר","10:15–14:30",[
+  ["קופוקו-ג׳י ופארק נארה","Nara Park","האיילים. בבוקר הם רגועים יותר.","nara"],
+  ["טודאי-ג׳י","Todaiji","הבודהה הענק, 15 מטרים.","tp"],
+  ["גני איסויאן","Isuien Garden",""],
+  ["מוצ׳י ב-Nakatanidou","Nakatanidou Nara","מופע הפטישים ומוצ׳י חם."]]],
+ ["אחר הצהריים","15:00–17:30",[
+  ["ביודו-אין באוג׳י","Byodoin","אולם הפניקס ממטבע ה-10 ין.","uji"],
+  ["קינוחי מאצ׳ה","Nakamura Tokichi Honten Uji","Nakamura Tokichi או Itohkyuemon. נסגר סביב 17:00."]]],
+ ["ערב","18:30–22:00",[
+  ["קניות בתחנת קיוטו","Yodobashi Camera Multimedia Kyoto","Yodobashi או Don Quijote Avanti."],
+  ["ארוחת פרידה מקיוטו","Kyoto Station","יאקיניקו או גיוזה וראמן."]]]]},
+{d:"2026-12-13",city:"hakone",hotel:HOTEL.hakone,title:"האקונה והריוקאן",bonus:"לא לשכוח ליהנות מהמלון ♥",secs:[
+ ["בוקר","08:30–12:00",[
+  ["משלוח מזוודות לטוקיו","The Royal Park Canvas Kyoto","בקבלה, ל-Bespoke Hotel Shinjuku."],
+  ["שינקנסן לאודווארה","Kyoto Station","כשעתיים, ואז רכבת ל-Hakone-Yumoto.","sh"],
+  ["Hakone Freepass","Odawara Station","ליומיים, קונים באודווארה."],
+  ["השארת תיקים בריוקאן","Tsukinoyado Sara Hakone","3–5 דקות מהתחנה."]]],
+ ["אחר הצהריים","12:30–16:30",[
+  ["המוזיאון הפתוח","Hakone Open-Air Museum","רכבת ההרים ל-Chokoku-no-Mori. אמבטיות רגליים."],
+  ["פארק גורה","Gora Park","תחנה אחת משם."]]],
+ ["ערב","17:00–22:00",[
+  ["אונסן פרטי במרפסת","Tsukinoyado Sara Hakone","טבילה ראשונה ויוקאטה.","on"],
+  ["ארוחת קאיסקי","Tsukinoyado Sara Hakone","ואחריה Yonaki Soba חינם בטרקלין."]]]]},
+{d:"2026-12-14",city:"hakone",hotel:HOTEL.hakone,title:"הסיבוב המעגלי והר פוג׳י",bonus:"להצטלם מלא! יש מלא רפרנסים בקבוצה שלנו בוואטסאפ.",secs:[
+ ["בוקר","09:00–12:30",[
+  ["רכבל מעל אוואקודאני","Owakudani","פוג׳י המושלג והביצים השחורות.","vw"]]],
+ ["אחר הצהריים","12:30–16:30",[
+  ["ספינת פיראטים באגם אשי","Togendai Port","כ-25 דקות ל-Moto-Hakone."],
+  ["Bakery & Table","Bakery & Table Hakone","צהריים וקפה על המים."],
+  ["מקדש האקונה ושער הטוריאי","Hakone Shrine","השער האדום שבמים.","tp"],
+  ["שדרת הארזים","Old Tokaido Cedar Avenue Hakone",""]]],
+ ["ערב","17:30–22:00",[
+  ["אונסן, לילה שני","Tsukinoyado Sara Hakone","אוטובוס ישיר מ-Moto-Hakone, כ-35 דקות.","on"],
+  ["ארוחת קאיסקי","Tsukinoyado Sara Hakone",""]]]]},
+{d:"2026-12-15",city:"tokyo",hotel:HOTEL.tokyo2,title:"חזרה לטוקיו: שינג׳וקו",secs:[
+ ["בוקר","08:30–13:00",[
+  ["טבילת בוקר אחרונה","Tsukinoyado Sara Hakone","וארוחת בוקר יפנית.","on"],
+  ["רחוב המזכרות","Hakone-Yumoto Station","ממתקים ו-Yosegi-zaiku."],
+  ["Romancecar לשינג׳וקו","Hakone-Yumoto Station","כ-85 דקות, ישיר.","sh"]]],
+ ["צהריים","13:00–17:00",[
+  ["צ׳ק-אין ואיסוף מזוודות","Bespoke Hotel Shinjuku","Bespoke Hotel Shinjuku."],
+  ["שופינג בשינג׳וקו","Alpen Tokyo Shinjuku","UNIQLO, Alpen TOKYO, BEAMS Japan, Isetan Men׳s."]]],
+ ["ערב","17:30–22:30",[
+  ["קבוקיצ׳ו","Kabukicho","atmos ו-ABC-MART."],
+  ["Don Quijote Shinjuku","Don Quijote Shinjuku Kabukicho","לבקש רישום Tax Free בקופה.","dq"],
+  ["ארוחת ערב","Shinjuku yakiniku","יאקיניקו וואגיו או ראמן עוף.","wg"]]]]},
+{d:"2026-12-16",city:"tokyo",hotel:HOTEL.tokyo2,title:"טוקיו דיסני סי",secs:[
+ ["כל היום","08:30–21:30",[
+  ["הגעה ל-Maihama","Tokyo DisneySea","כ-45 דקות משינג׳וקו.","park"],
+  ["Fantasy Springs","Fantasy Springs Tokyo DisneySea","Premier Access או Standby Pass באפליקציה, מיד בכניסה."],
+  ["מתקני האקשן","Tokyo DisneySea","Journey to the Center of the Earth, Tower of Terror, Indiana Jones."],
+  ["גונדולות לקראת שקיעה","Venetian Gondolas Tokyo DisneySea",""],
+  ["Believe! Sea of Dreams","Tokyo DisneySea Mediterranean Harbor","מופע הלילה על המים.","il"]]]]},
+{d:"2026-12-17",city:"tokyo",hotel:HOTEL.tokyo2,title:"איקבוקורו",secs:[
+ ["בוקר","10:00–15:30",[
+  ["Pokémon Center Mega Tokyo","Pokemon Center Mega Tokyo","ב-Sunshine City. גם Pikachu Sweets.","pk"],
+  ["מתחם הגאשאפון הגדול בעולם","Gashapon Department Store Ikebukuro","מעל 3,000 מכונות."]]],
+ ["ערב","15:30–21:30",[
+  ["Animate Flagship","Animate Ikebukuro Flagship","9 קומות אנימה ומנגה."],
+  ["Round1 ו-GiGO","Round1 Stadium Ikebukuro","באולינג, קריוקי וארקייד."],
+  ["BIC Camera","BIC Camera Ikebukuro Main Store",""],
+  ["ארוחת ערב","Gyukatsu Motomura Ikebukuro","Gyukatsu Motomura או יאקיניקו."]]]]},
+{d:"2026-12-18",city:"tokyo",hotel:HOTEL.tokyo2,title:"teamLab, אודאיבה ורופונגי",secs:[
+ ["בוקר","09:30–12:30",[
+  ["teamLab Planets","teamLab Planets Tokyo","יחפים. מכנסיים שמתקפלים עד הברך."]]],
+ ["צהריים","12:45–16:00",[
+  ["DiverCity והגנדאם","DiverCity Tokyo Plaza","Unicorn Gundam בגודל טבעי ו-Gundam Base."],
+  ["פארק אודאיבה","Odaiba Statue of Liberty","פסל החירות וגשר ריינבואו."]]],
+ ["ערב","16:30–22:00",[
+  ["Roppongi Keyakizaka","Roppongi Keyakizaka Street","עצים בכחול-לבן ומגדל טוקיו ברקע.","il"],
+  ["שוק חג המולד ו-Azabudai Hills","Roppongi Hills","ארוחת ערב חגיגית באזור."]]]]},
+{d:"2026-12-19",city:"tokyo",hotel:HOTEL.tokyo2,title:"נאקה-מגורו ויום גמיש",bonus:"אם בא לנו לוותר על התכנון ולהקדיש יום למקום שנהנינו בו, זו ההזדמנות.",secs:[
+ ["בוקר","10:00–15:30",[
+  ["Starbucks Reserve Roastery","Starbucks Reserve Roastery Tokyo","על תעלת נאקה-מגורו."],
+  ["נאקה-מגורו ודאיקניאמה","Daikanyama","Carhartt WIP, Stüssy, nonnative."],
+  ["Ebisu Garden Place","Yebisu Garden Place","נברשת הקריסטל של Baccarat.","il"]]],
+ ["ערב","16:00–22:00",[
+  ["השלמות קניות ואריזה","Shinjuku","שינג׳וקו או שיבויה."],
+  ["ארוחת פרידה: וואגיו A5","Shinjuku wagyu","לסיום ירח הדבש.","wg"]]]]},
+{d:"2026-12-20",city:"tokyo",hotel:"טיסה הביתה",title:"נאריטה והביתה",secs:[
+ ["בוקר","09:30–12:30",[
+  ["קפה אחרון וצ׳ק-אאוט","Bespoke Hotel Shinjuku",""]]],
+ ["צהריים","12:45–16:00",[
+  ["Narita Express","Shinjuku Station","80–85 דקות, ישיר."],
+  ["החזר מס במכס","Narita Airport Customs","לפני מסירת המזוודות. דרכון וקניות ביד, ולהשאיר לזה זמן."],
+  ["Pokémon Store נאריטה","Pokemon Store Narita Airport","טרמינל 1, קומה 4. פיקאצ׳ו טייס."],
+  ["גאשאפון עם המטבעות שנשארו","Narita Airport Terminal 1","קומות B1 ו-5."],
+  ["מרפסת התצפית","Narita Airport Observation Deck",""]]],
+ ["ערב","16:00–18:00",[
+  ["דיוטי פרי","Narita Airport","טוקיו בננה, Royce׳ וקיט-קאטים."],
+  ["ארוחה אחרונה ביפן","Narita Airport Terminal 2","Gyukatsu Kyoto Katsugyu או Ginza Kagari."]]]]}
+];
+const WD=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
+const BOOKINGS=[
+ ["Ushigoro Ginza","30.11","שולחן לארוחת הערב"],
+ ["Shibuya Sky","03.12","לשעה 16:00. שעות השקיעה נגמרות מהר"],
+ ["מוזיאון המאה ה-21","04.12","לבדוק כרטיס לחלק שמתחת לבריכה"],
+ ["אוטובוס לשיראקאווה-גו","05.12","הלוך וחזור. יום שבת"],
+ ["USJ + Express Pass 4","07.12","כרטיס מתוארך"],
+ ["אקווריום Kaiyukan","08.12","חלון 10:00"],
+ ["הריוקאן: העדפות אוכל","13.12","לעדכן לפני הקאיסקי"],
+ ["Bespoke Shinjuku: החזקת מזוודות","13.12","מייל לוודא שמחזיקים לפני הצ׳ק-אין"],
+ ["Tokyo DisneySea","16.12","כרטיס מתוארך ותקציב ל-Premier Access"],
+ ["teamLab Planets","18.12","חלון 09:30 או 10:00"],
+ ["ארוחת פרידה: וואגיו A5","19.12",""],
+ ["לבדוק תאריכים ושעות","לפני הטיסה","Ao no Dokutsu, Tokyo Snow Dome City, Shiro-Hige"]
+];
+const PHRASES=[
+ ["סליחה, אפשר רגע?","すみません","Sumimasen"],
+ ["תודה רבה","ありがとうございます","Arigatō gozaimasu"],
+ ["שולחן לשניים, בבקשה","二人です","Futari desu"],
+ ["יש תפריט באנגלית?","英語のメニューはありますか？","Eigo no menyū wa arimasu ka?"],
+ ["מה מומלץ?","おすすめは何ですか？","Osusume wa nan desu ka?"],
+ ["את זה, בבקשה","これをください","Kore o kudasai"],
+ ["יש בזה חזיר?","豚肉は入っていますか？","Butaniku wa haitte imasu ka?"],
+ ["יש בזה דגים או פירות ים?","魚介類は入っていますか？","Gyokairui wa haitte imasu ka?"],
+ ["היה טעים מאוד","とても美味しかったです","Totemo oishikatta desu"],
+ ["חשבון, בבקשה","お会計をお願いします","Okaikei o onegaishimasu"],
+ ["אפשר לשלם בכרטיס?","カードは使えますか？","Kādo wa tsukaemasu ka?"],
+ ["רישום Tax Free, בבקשה","免税でお願いします","Menzei de onegaishimasu"],
+ ["איפה השירותים?","トイレはどこですか？","Toire wa doko desu ka?"],
+ ["אפשר לצלם אותנו?","写真を撮ってもらえますか？","Shashin o totte moraemasu ka?"],
+ ["אפשר להשאיר כאן תיקים?","荷物を預かってもらえますか？","Nimotsu o azukatte moraemasu ka?"],
+ ["אני רוצה לשלוח מזוודה בטאקיובין","宅急便で荷物を送りたいです","Takkyūbin de nimotsu o okuritai desu"],
+ ["אנחנו בירח דבש","新婚旅行で来ました","Shinkon ryokō de kimashita"]
+];
+const COUNTERS=[["gacha","קפסולות גאשאפון"],["vend","משקאות ממכונה"],["ramen","קערות ראמן"],["konbini","ביקורים בקונביני"],["kawaii","פעמים שאמרנו ״קאוואי״"]];
+
+/* ---------- state ---------- */
+const LS="jp-honeymoon-v1";
+let state={checks:{},notes:{},counters:{},bookings:{},custom:{},favs:{},rate:2.1};
+let addOpen=null, addSec=0, addFav=false;
+try{const s=JSON.parse(localStorage.getItem(LS)||"null"); if(s) merge(state,s);}catch(e){}
+function merge(a,b){for(const k in b){const v=b[k]; if(v&&typeof v==="object"&&!Array.isArray(v)){if(!a[k]||typeof a[k]!=="object")a[k]={}; merge(a[k],v);} else a[k]=v;} return a;}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+let docRef=null, shared=false, chain=Promise.resolve();
+function save(patch){
+  merge(state,patch); saveLocal();
+  if(docRef&&shared){
+    chain=chain.then(()=>docRef.update(patch)).catch(err=>{ if(err&&err.code==="invalid_argument"){shared=false;setSync();} });
+  }
+}
+function setSync(){const el=document.getElementById("sync"); el.classList.toggle("on",shared); el.querySelector("span").textContent=shared?"מסונכרן":"במכשיר";}
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bd=s=>esc(s).replace(/[A-Za-zÀ-ÿ%][A-Za-zÀ-ÿ0-9&;!.,%\-+ ]*[A-Za-zÀ-ÿ0-9!%]/g,m=>`<bdi dir="ltr">${m}</bdi>`);
+const CHECK='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function jstParts(){
+  const f=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false});
+  const p={}; f.formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
+  return {date:`${p.year}-${p.month}-${p.day}`,h:(+p.hour%24)+(+p.minute)/60,time:`${String(+p.hour%24).padStart(2,"0")}:${p.minute}`};
+}
+function ilTime(){return new Intl.DateTimeFormat("he-IL",{timeZone:"Asia/Jerusalem",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date());}
+function dayDiff(a,b){return Math.round((Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/864e5);}
+function fmtDate(d){const [y,m,dd]=d.split("-");return `${+dd}.${+m}`;}
+function wd(d){return WD[new Date(d+"T00:00:00Z").getUTCDay()];}
+function sid(di,si,ti){return `d${di}s${si}t${ti}`;}
+function customFor(di,si){return Object.entries(state.custom||{}).filter(([id,c])=>c&&c.d===di&&c.s===si&&!c.del&&c.name).sort((a,b)=>a[0]<b[0]?-1:1);}
+function dayStops(di){const out=[];DAYS[di].secs.forEach((s,si)=>{s[2].forEach((t,ti)=>out.push({id:sid(di,si,ti),t}));customFor(di,si).forEach(([id,c])=>out.push({id,t:[c.name]}));});return out;}
+const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>';
+function dayProgress(di){const st=dayStops(di);return [st.filter(x=>state.checks[x.id]).length,st.length];}
+function mapUrl(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);}
+function hours(range){const m=range.match(/(\d\d):(\d\d)–(\d\d):(\d\d)/);return m?[+m[1]+m[2]/60,+m[3]+m[4]/60]:[0,24];}
+function luggage(d){
+  if(d<"2026-12-04")return "המזוודות איתנו.";
+  if(d==="2026-12-04")return "הבוקר שולחים את המזוודות ל-Karaksa באוסקה. ממשיכים עם תיק קטן.";
+  if(d==="2026-12-05")return "המזוודות מחכות לנו באוסקה.";
+  if(d==="2026-12-06")return "אוספים את המזוודות בקבלה של Karaksa.";
+  if(d==="2026-12-07")return "המזוודות איתנו.";
+  if(d==="2026-12-08")return "הבוקר שולחים את המזוודות ל-Royal Park Canvas בקיוטו.";
+  if(d==="2026-12-09")return "המזוודות מחכות במלון בקיוטו.";
+  if(d<"2026-12-13")return "המזוודות איתנו.";
+  if(d==="2026-12-13")return "הבוקר שולחים את המזוודות ל-Bespoke בשינג׳וקו. להאקונה רק תיק ליומיים.";
+  if(d==="2026-12-14")return "המזוודות מחכות לנו בטוקיו.";
+  if(d==="2026-12-15")return "אוספים את המזוודות בקבלה של Bespoke.";
+  return "המזוודות איתנו.";
+}
+
+/* ---------- day / night ---------- */
+const MODE_KEY="jp-mode", MODES=["auto","day","night"], MODE_LBL={auto:"אוטומטי",day:"יום",night:"לילה"};
+let mode="auto", phase="day";
+try{const m=localStorage.getItem(MODE_KEY); if(MODES.includes(m))mode=m;}catch(e){}
+function phaseNow(){
+  if(mode!=="auto")return mode;
+  const j=jstParts(); let h, sun=16.67;
+  const D=DAYS.find(x=>x.d===j.date);
+  if(D){h=j.h; const t=CITY[D.city].sun.split(":"); sun=+t[0]+t[1]/60;}
+  else{const n=new Date(); h=n.getHours()+n.getMinutes()/60;}
+  if(h<6||h>=sun+0.5)return "night";
+  if(h<7)return "dusk";
+  if(h<sun-0.75)return "day";
+  return "dusk";
+}
+function applyPhase(){
+  const p=phaseNow(), b=document.getElementById("modeBtn"); if(b)b.textContent=MODE_LBL[mode];
+  if(p===phase&&document.documentElement.dataset.theme)return false;
+  phase=p; document.documentElement.dataset.theme=p==="night"?"dark":"light"; return true;
+}
+
+/* ---------- rendering ---------- */
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-3-5.4 3 1.1-6-4.5-4.2 6.1-.8z"/></svg>';
+function starBtn(id,name){return `<button class="star" data-fav="${id}" aria-pressed="${!!state.favs[id]}" aria-label="חובה: ${esc(name)}">${STAR}</button>`;}
+function favsHtml(di){
+  const f=dayStops(di).filter(x=>state.favs[x.id]);
+  if(!f.length)return `<p class="favhint muted">סמנו בכוכב את מה שחייבים לעשות ביום הזה.</p>`;
+  const done=f.filter(x=>state.checks[x.id]).length;
+  return `<div class="favs"><div class="favhead"><b>החובה של היום</b><span>${done} מתוך ${f.length}</span></div>${f.map(x=>{const on=!!state.checks[x.id];return `<div class="favrow${on?" done":""}" data-stop="${x.id}"><button class="chk" data-check="${x.id}" aria-pressed="${on}" aria-label="סימון: ${esc(x.t[0])}">${CHECK}</button><span class="name">${bd(x.t[0])}</span></div>`;}).join("")}</div>`;
+}
+function stopsHtml(di,nowH){
+  const D=DAYS[di]; let h=favsHtml(di);
+  D.secs.forEach((s,si)=>{
+    const [a,b]=hours(s[1]); const now=nowH!=null&&nowH>=a&&nowH<b;
+    h+=`<div class="sec${now?" now":""}"><div class="sechead"><h3>${esc(s[0])}</h3><span class="time ltr">${esc(s[1])}</span></div>`;
+    s[2].forEach((t,ti)=>{const id=sid(di,si,ti),on=!!state.checks[id];
+      h+=`<div class="stop${on?" done":""}" data-stop="${id}"><button class="chk" data-check="${id}" aria-pressed="${on}" aria-label="סימון: ${esc(t[0])}">${CHECK}</button><div><div class="name">${bd(t[0])}</div>${t[2]?`<div class="note">${bd(t[2])}</div>`:""}</div><div class="acts">${starBtn(id,t[0])}<a class="map" href="${mapUrl(t[1])}" target="_blank" rel="noopener" aria-label="פתיחה במפות: ${esc(t[0])}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div></div>`;});
+    customFor(di,si).forEach(([id,c])=>{const on=!!state.checks[id];
+      h+=`<div class="stop${on?" done":""}" data-stop="${id}"><button class="chk" data-check="${id}" aria-pressed="${on}" aria-label="סימון: ${esc(c.name)}">${CHECK}</button><div><div class="name">${bd(c.name)}<span class="mine">הוספנו</span></div>${c.note?`<div class="note">${bd(c.note)}</div>`:""}<button class="del" data-del="${id}">הסרה</button></div><div class="acts">${starBtn(id,c.name)}<a class="map" href="${mapUrl(c.name+" "+CITY[D.city].jp)}" target="_blank" rel="noopener" aria-label="פתיחה במפות: ${esc(c.name)}">${PIN}</a></div></div>`;});
+    h+="</div>";
+  });
+  if(D.bonus)h+=`<div class="bonus"><span>${bd(D.bonus)}</span></div>`;
+  h+=addOpen===di
+    ?`<div class="addform" data-addform="${di}"><input data-f="name" maxlength="80" placeholder="מה מוסיפים? למשל: קפה שהמליצו לנו עליו" aria-label="מה מוסיפים"><input data-f="note" maxlength="140" placeholder="הערה (לא חובה)" aria-label="הערה"><div class="picks" role="group" aria-label="באיזה חלק של היום">${D.secs.map((s,si)=>`<button class="pick" data-pick="${si}" aria-pressed="${si===addSec}">${esc(s[0])}</button>`).join("")}<button class="pick favpick" data-addfav aria-pressed="${addFav}">★ חובה</button></div><div class="row"><button class="btn" data-addsave>הוספה ליום</button><button class="btn ghost" data-addcancel>ביטול</button></div></div>`
+    :`<button class="addbtn" data-addopen="${di}">+ הוספה ליום הזה</button>`;
+  return h;
+}
+function addItem(form){
+  if(!form)return; const di=+form.dataset.addform, nameEl=form.querySelector('[data-f="name"]'), name=nameEl.value.trim(), note=form.querySelector('[data-f="note"]').value.trim();
+  if(!name){nameEl.focus();return;}
+  const id=`d${di}c${Date.now().toString(36)}`;
+  save(Object.assign({custom:{[id]:{d:di,s:addSec,name,note,del:false}}},addFav?{favs:{[id]:true}}:{}));
+  addOpen=null; RENDER[tab](); toast("נוסף ל-"+fmtDate(DAYS[di].d));
+}
+function noteHtml(di){const k="n"+DAYS[di].d.slice(5).replace("-","");return `<div class="block"><h2>רגע היום</h2><p class="muted" style="margin:0 0 8px">משפט אחד שנרצה לזכור מהיום הזה.</p><textarea data-note="${k}" placeholder="למשל: הפחזנית של טוטורו הייתה שווה את התור">${esc(state.notes[k]||"")}</textarea></div>`;}
+const SC={far:"#1A2260",mid:"#10163F",near:"#070A20",red:"#E0492F",honey:"#F6C55A"};
+const SCENES={
+ tokyo:`<path d="M0 150V110h28V94h22v16h38V86h26v24h52V98h30v12h62V90h24v20h118v40z" class="sf"/><path d="M0 150V124h24v-18h30v18h18V98h34v26h22v-12h28v12h20V90h30v34h60v-10h26v10h40v-22h30v22h18v26z" class="sn"/><path d="M296 150l11-50h-3l6-24h-2l4-44 4 44h-2l6 24h-3l11 50h-9l-3-20h-8l-3 20z" class="sr"/><path d="M306 100h12v4h-12zM309 76h6v3h-6z" fill="#fff" opacity=".85"/><g class="sh" opacity=".85"><rect x="80" y="104" width="3" height="3"/><rect x="88" y="112" width="3" height="3"/><rect x="186" y="98" width="3" height="3"/><rect x="194" y="108" width="3" height="3"/><rect x="34" y="116" width="3" height="3"/><rect x="236" y="126" width="3" height="3"/><rect x="368" y="112" width="3" height="3"/></g>`,
+ kanazawa:`<path d="M0 150v-30q60-22 130-10t140-6 130 8v38z" class="sf"/><path d="M0 150v-16q100-12 200-6t200-4v26z" class="sn"/><g class="sn"><rect x="266" y="78" width="6" height="62"/><ellipse cx="270" cy="84" rx="40" ry="15"/><ellipse cx="246" cy="100" rx="30" ry="11"/><ellipse cx="296" cy="104" rx="32" ry="11"/></g><g class="sth" stroke-width=".9" opacity=".8"><path d="M270 30V70M270 30L212 128M270 30L228 128M270 30L246 128M270 30L262 128M270 30L278 128M270 30L294 128M270 30L312 128M270 30L328 128" fill="none"/></g><circle cx="270" cy="29" r="2.5" class="sh"/><g class="sn"><path d="M96 112h28l-4 6h-20zM102 118h16v10h-16zM104 128l-8 16h5l7-14zM116 128l8 16h-5l-7-14zM99 110q11-10 22 0z"/></g><rect x="106" y="120" width="8" height="6" class="sh"/>`,
+ osaka:`<path d="M0 150v-34h40v-12h30v12h60v-20h26v20h80v-10h30v10h134v34z" class="sf"/><g fill="none" class="stw" stroke-width="2"><circle cx="96" cy="88" r="38"/><path d="M96 50v76M58 88h76M69 61l54 54M123 61l-54 54"/></g><g class="sh"><circle cx="96" cy="50" r="3"/><circle cx="134" cy="88" r="3"/><circle cx="58" cy="88" r="3"/><circle cx="123" cy="61" r="3"/><circle cx="69" cy="61" r="3"/><circle cx="123" cy="115" r="3"/><circle cx="69" cy="115" r="3"/></g><path d="M86 150l8-62h4l8 62z" class="sn"/><g class="sn"><path d="M236 150l10-24h88l10 24z"/><path d="M240 126q50-14 100 0l-8-10h-84z"/><rect x="256" y="100" width="68" height="16"/><path d="M248 100q42-13 84 0l-8-9h-68z"/><rect x="268" y="76" width="44" height="15"/><path d="M260 76q30-12 60 0l-12-12h-36z"/><path d="M290 52l10 12h-20z"/></g><g class="sh"><rect x="272" y="104" width="4" height="6"/><rect x="288" y="104" width="4" height="6"/><rect x="304" y="104" width="4" height="6"/><rect x="288" y="80" width="4" height="6"/></g><path d="M0 150v-10h400v10z" class="sn"/>`,
+ kyoto:`<path d="M0 150v-40q50-30 110-14t120-20 170 24v50z" class="sf"/><path d="M0 150v-20q120-16 240-6t160-6v32z" class="sm"/><g class="sn"><rect x="286" y="20" width="3" height="16"/><path d="M262 44q26-12 52 0l-10-9h-32z"/><rect x="276" y="44" width="24" height="12"/><path d="M256 64q32-13 64 0l-12-9h-40z"/><rect x="273" y="64" width="30" height="13"/><path d="M250 86q38-14 76 0l-14-10h-48z"/><rect x="270" y="86" width="36" height="14"/><path d="M244 110q44-15 88 0l-16-11h-56z"/><rect x="266" y="110" width="44" height="40"/></g><g class="sr"><rect x="84" y="96" width="7" height="54"/><rect x="125" y="96" width="7" height="54"/><path d="M70 86q38 8 76 0l-3 9q-35 6-70 0z"/><rect x="80" y="104" width="56" height="5"/></g>`,
+ hakone:`<path d="M70 150L182 50q18-10 36 0l112 100z" class="sfj"/><path d="M152 77l30-27q18-10 36 0l30 27-18-8-12 10-18-12-16 12-14-9z" fill="#fff" opacity=".92"/><path d="M0 150v-26q60-14 120-8l40 34zM400 150v-30q-70-14-130-4l-40 34z" class="sm"/><path d="M0 150v-12h400v12z" class="sn"/><g class="sr"><rect x="92" y="108" width="6" height="34"/><rect x="124" y="108" width="6" height="34"/><path d="M80 99q30 7 60 0l-3 8q-27 5-54 0z"/><rect x="88" y="114" width="46" height="4"/></g><g class="sr" opacity=".3"><rect x="92" y="142" width="6" height="8"/><rect x="124" y="142" width="6" height="8"/></g>`
+};
+function stars(){let s='<g class="stars">',x=7;for(let i=0;i<36;i++){x=(x*73+19)%997;const cx=(x/997*400).toFixed(1);x=(x*73+19)%997;const cy=(x/997*170).toFixed(1);s+=`<circle cx="${cx}" cy="${cy}" r="${i%5?0.7:1.3}" fill="#fff" opacity="${i%3?0.45:0.9}"/>`;}return s+"</g>";}
+function moon(p){const r=24,cx=62,cy=62,off=(0.3+0.7*p)*2*r;
+  return `<defs><mask id="mm"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/><circle cx="${cx+off}" cy="${cy-5*(1-p)}" r="${r}" fill="#000"/></mask><radialGradient id="mg"><stop offset="0" stop-color="#F6C55A" stop-opacity=".42"/><stop offset="1" stop-color="#F6C55A" stop-opacity="0"/></radialGradient></defs><circle cx="${cx}" cy="${cy}" r="70" fill="url(#mg)"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="#F6C55A" mask="url(#mm)"/>`;}
+function orb(p){
+  if(phase==="day")return `<circle cx="66" cy="72" r="52" fill="#fff" opacity=".35"/><circle cx="66" cy="72" r="31" fill="#E8452C"/>`;
+  if(phase==="dusk")return `<defs><radialGradient id="sg"><stop offset="0" stop-color="#FFD28A" stop-opacity=".7"/><stop offset="1" stop-color="#FFD28A" stop-opacity="0"/></radialGradient></defs><circle cx="70" cy="196" r="90" fill="url(#sg)"/><circle cx="70" cy="196" r="32" fill="#FF5A3C"/>`;
+  return moon(p);
+}
+function heroHtml(o){
+  return `<div class="hero ${phase}" style="--c:${o.c}"><svg class="sky" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${stars()}${orb(o.p)}<g transform="translate(0,150)">${SCENES[o.scene]}</g></svg>
+  <div class="htop">${o.pills}</div><div class="hnum">${o.num}</div></div>
+  <div class="under">${o.prog!=null?`<div class="progress" aria-label="התקדמות"><span style="width:${o.prog}%"${o.progAttr||""}></span></div>`:""}<div class="htitle">${o.title}</div><div class="facts">${o.facts.map(f=>`<div>${f[0]}<b${f[2]||""}>${f[1]}</b></div>`).join("")}</div></div>`;
+}
+function ticketHtml(di,jst){
+  const D=DAYS[di],C=CITY[D.city],[done,tot]=dayProgress(di);
+  return heroHtml({c:C.c,scene:D.city,p:di/(DAYS.length-1),
+   pills:`<span class="pill city">${esc(C.he)} <span class="jp">${C.jp}</span></span><span class="pill">${wd(D.d)} ${fmtDate(D.d)}</span>`,
+   num:`יום <b>${di+1}</b> מתוך ${DAYS.length}`,title:esc(D.title),prog:tot?done/tot*100:0,progAttr:` data-prog="${di}"`,
+   facts:[["לינה",`<bdi>${esc(D.hotel)}</bdi>`],["שקיעה",C.sun,' class="ltr"'],["השעה ביפן",jst.time,' class="ltr" data-clock="jp"'],["השעה בארץ",ilTime(),' class="ltr" data-clock="il"']]});
+}
+function renderToday(){
+  const jst=jstParts(), el=$("#v-today"); let di=DAYS.findIndex(x=>x.d===jst.date), h="";
+  if(di<0&&jst.date<DAYS[0].d){
+    const n=dayDiff(jst.date,DAYS[0].d), bdone=BOOKINGS.filter((_,i)=>state.bookings["b"+i]).length;
+    h+=heroHtml({c:"var(--kyoto)",scene:"hakone",p:0.08,pills:`<span class="pill">המראה ב-<span class="ltr">29.11</span></span>`,
+      num:`<b>${n}</b> ${n===1?"יום":"ימים"} לטיסה`,title:"22 ימים, 5 ערים, ירח דבש אחד.",prog:bdone/BOOKINGS.length*100,
+      facts:[["הזמנות שנסגרו",`${bdone} מתוך ${BOOKINGS.length}`],["השעה עכשיו ביפן",jst.time,' class="ltr" data-clock="jp"']]});
+    h+=`<div class="block"><h2>מה נשאר לסגור</h2>${BOOKINGS.map((b,i)=>state.bookings["b"+i]?"":`<div class="todo"><span class="bk"><span class="when" style="border:0;padding:1px 9px">${esc(b[1])}</span></span><bdi style="font-weight:600">${esc(b[0])}</bdi></div>`).join("")||'<p class="muted">הכול סגור. נשאר רק לארוז.</p>'}<div class="row"><a class="btn" href="#bookings" style="text-decoration:none">לרשימת ההזמנות</a><a class="btn ghost" href="#route" style="text-decoration:none">למסלול</a></div></div>`;
+    el.innerHTML=h; return;
+  }
+  if(di<0){
+    const st=stampList(); const got=st.filter(s=>s.done).length;
+    el.innerHTML=heroHtml({c:"var(--kyoto)",scene:"kyoto",p:1,pills:`<span class="pill">הטיול הסתיים</span>`,num:`<b>${got}</b> חותמות מתוך ${st.length}`,title:"איזה ירח דבש זה היה.",prog:null,facts:[]})+
+    `<div class="block"><h2>הרגעים שלנו</h2>${DAYS.map((D,i)=>{const k="n"+D.d.slice(5).replace("-","");return state.notes[k]?`<p style="margin:8px 0"><b>${fmtDate(D.d)}</b> ${esc(state.notes[k])}</p>`:""}).join("")||'<p class="muted">לא נכתבו רגעים.</p>'}</div>`;
+    return;
+  }
+  const D=DAYS[di];
+  h+=ticketHtml(di,jst);
+  h+=`<div class="block"><div class="lug"><span class="ic" aria-hidden="true">🧳</span><span>${bd(luggage(D.d))}</span></div></div>`;
+  h+=`<div class="block"><h2>התוכנית להיום</h2>${stopsHtml(di,jst.h)}</div>`;
+  h+=noteHtml(di);
+  if(di+1<DAYS.length)h+=`<div class="block"><h3>מחר: ${esc(DAYS[di+1].title)}</h3><p class="muted" style="margin:4px 0 0">${esc(DAYS[di+1].secs[0][2][0][0])} ב-<span class="ltr">${DAYS[di+1].secs[0][1].slice(0,5)}</span></p></div>`;
+  el.innerHTML=h;
+}
+let routeDay=0;
+function renderRoute(){
+  const jst=jstParts(), el=$("#v-route"), D=DAYS[routeDay], C=CITY[D.city], [done,tot]=dayProgress(routeDay);
+  let h=`<div class="rail" id="rail">`+DAYS.map((x,i)=>`<button class="st${x.d===jst.date?" today":""}" style="--c:${CITY[x.city].c}" data-day="${i}" aria-current="${i===routeDay}" aria-label="${fmtDate(x.d)} ${esc(x.title)}"><div class="dot">${+x.d.slice(8)}</div><div class="wd">${wd(x.d)}</div></button>`).join("")+`</div>`;
+  h+=`<div class="block" style="--c:${C.c};margin-top:2px;border-top:5px solid ${C.c}"><div class="dayhead"><span class="muted">יום ${routeDay+1}, ${wd(D.d)} ${fmtDate(D.d)}</span><span class="tag">${esc(C.he)} <span class="jp">${C.jp}</span></span></div>
+  <div class="daytitle">${esc(D.title)}</div><div class="muted">לינה: <bdi>${esc(D.hotel)}</bdi>. ${bd(luggage(D.d))}</div>
+  <div class="progress"><span style="width:${tot?done/tot*100:0}%" data-prog="${routeDay}"></span></div>
+  ${stopsHtml(routeDay,D.d===jst.date?jst.h:null)}</div>`+noteHtml(routeDay);
+  el.innerHTML=h;
+  const cur=el.querySelector('.st[aria-current="true"]'); if(cur)cur.scrollIntoView({inline:"center",block:"nearest"});
+}
+let yen="1000", ai=null, tts=null, aiImages=false;
+function renderTools(){
+  const el=$("#v-tools"), jst=jstParts();
+  el.innerHTML=`<div class="block night"><h2>כמה זה בשקלים</h2>
+   <div class="conv"><div><label for="yen">ין</label><input id="yen" inputmode="numeric" value="${esc(yen)}"></div><div class="eq" aria-hidden="true">=</div><div><label for="ils">שקלים</label><input id="ils" readonly value=""></div></div>
+   <div class="chips">${[500,1000,3000,5000,10000].map(v=>`<button class="chip ltr" data-yen="${v}">¥${v.toLocaleString("en")}</button>`).join("")}</div>
+   <div class="rate"><label for="rate">השער שלנו: 100 ין =</label><input id="rate" inputmode="decimal" value="${esc(state.rate)}"><span>₪</span></div><p class="muted" style="margin:6px 0 0">ערך משוער. עדכנו לפי השער ביום ההמרה.</p></div>
+
+  <div class="block" id="aiBlock"${ai?"":" hidden"}><h2>שאלו את המדריך</h2><p class="muted" style="margin:0 0 8px">Claude מכיר את המסלול שלנו. אפשר לשאול מה לעשות אם יורד גשם, איך מגיעים, או מה להזמין.</p>
+   <textarea id="aiQ" placeholder="למשל: יורד גשם ונשארו לנו שעתיים באזור. מה עושים?"></textarea>
+   <div class="row"><button class="btn" id="aiAsk">שאלו</button><label class="btn ghost" id="aiPhotoLbl"${aiImages?"":" hidden"}>תרגום תפריט מתמונה<input type="file" id="aiPhoto" accept="image/*" capture="environment" hidden></label></div>
+   <div class="answer" id="aiA" hidden></div></div>
+
+  <div class="block"><h2>משפטים להראות</h2><p class="muted" style="margin:0 0 4px">לחיצה מציגה את המשפט בגדול, כדי להראות למלצר או לפקיד.</p>
+   ${PHRASES.map((p,i)=>`<button class="phrase" data-phrase="${i}"><span><span class="he">${esc(p[0])}</span><br><span class="ja">${p[1]}</span><br><span class="ro">${esc(p[2])}</span></span><span class="show">הצגה</span></button>`).join("")}</div>
+
+  <div class="block"><h2>טוב לדעת</h2><dl class="kv">
+   <dt class="ltr">110</dt><dd>משטרה</dd><dt class="ltr">119</dt><dd>אמבולנס וכיבוי אש</dd>
+   <dt>טיפ</dt><dd>לא משאירים. זה אפילו מביך.</dd>
+   <dt>החזר מס</dt><dd>מ-1.11.2026 משלמים בחנות מחיר מלא. מבקשים בקופה רישום Tax Free עם הדרכון, ואת ההחזר מקבלים במכס בשדה, לפני הצ׳ק-אין. הקניות צריכות להיות זמינות לבדיקה.</dd>
+   <dt>אשפה</dt><dd>אין פחים ברחוב. שקית בתיק, ופחים בקונביני.</dd>
+   <dt>נעליים</dt><dd>מורידים במקדשים, בריוקאן וב-teamLab. גרביים שלמים.</dd>
+   <dt>רכבות</dt><dd>שקט בקרון, ועומדים בתור על הסימון ברציף.</dd></dl></div>`;
+  updConv();
+}
+function updConv(){const y=parseFloat(String(yen).replace(/[^\d.]/g,""))||0, r=parseFloat(state.rate)||0, o=$("#ils"); if(o)o.value=(y*r/100).toLocaleString("en",{maximumFractionDigits:y*r/100<100?1:0})+" ₪";}
+
+/* stamps */
+function tagCount(tag){let n=0;DAYS.forEach((D,di)=>D.secs.forEach((s,si)=>s[2].forEach((t,ti)=>{if(t[3]===tag&&state.checks[sid(di,si,ti)])n++;})));return n;}
+function cityAny(city){return DAYS.some((D,di)=>D.city===city&&dayStops(di).some(x=>state.checks[x.id]))?1:0;}
+function stampList(){
+  const fullDay=DAYS.some((_,di)=>{const[a,b]=dayProgress(di);return b>0&&a===b;})?1:0;
+  const L=[
+   ["c-tokyo","東京","הגענו לטוקיו",cityAny("tokyo"),1],["c-kanazawa","金沢","קנאזווה",cityAny("kanazawa"),1],["c-shira","白川","שיראקאווה-גו",tagCount("shira"),1],
+   ["c-osaka","大阪","אוסקה",cityAny("osaka"),1],["c-kyoto","京都","קיוטו",cityAny("kyoto"),1],["c-nara","奈良","האיילים של נארה",tagCount("nara"),1],
+   ["c-uji","宇治","מאצ׳ה באוג׳י",tagCount("uji"),1],["c-hakone","箱根","האקונה",cityAny("hakone"),1],["pk","電気","כל הפוקימון סנטרים",tagCount("pk"),5],
+   ["wg","和牛","חמש ארוחות וואגיו",tagCount("wg"),5],["tp","寺社","עשרה מקדשים",tagCount("tp"),10],["il","灯","חמש תאורות חורף",tagCount("il"),5],
+   ["vw","展望","שש תצפיות",tagCount("vw"),6],["on","湯","שלוש טבילות באונסן",tagCount("on"),3],["sh","特急","ארבע רכבות מהירות",tagCount("sh"),4],
+   ["dq","買物","מלכי הדון קיחוטה",tagCount("dq"),4],["park","遊園","שני פארקים",tagCount("park"),2],["full","完","יום שלם בלי לפספס",fullDay,1]
+  ];
+  return L.map(x=>({id:x[0],k:x[1],label:x[2],have:Math.min(x[3],x[4]),need:x[4],done:x[3]>=x[4]}));
+}
+function stampSvg(k){const fs=k.length>1?26:40;return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="50" r="37" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 3"/><text x="50" y="${k.length>1?59:64}" text-anchor="middle" font-size="${fs}" font-weight="800" fill="currentColor" style="font-family:var(--jp)">${k}</text></svg>`;}
+let popId=null;
+function renderStamps(){
+  const st=stampList(), got=st.filter(s=>s.done).length, total=DAYS.reduce((n,_,i)=>n+dayProgress(i)[1],0), done=DAYS.reduce((n,_,i)=>n+dayProgress(i)[0],0);
+  $("#v-stamps").innerHTML=`<div class="block book"><h2>פנקס החותמות</h2><p class="muted" style="margin:0">${got} מתוך ${st.length} חותמות. ${done} מתוך ${total} תחנות במסלול. החותמות נדפקות לבד כשמסמנים תחנות.</p>
+   <div class="stamps" style="margin-top:16px">${st.map((s,i)=>`<div class="stamp${s.done?" on":""}${popId===s.id?" pop":""}" style="--r:${[-7,4,-3,6,-5,3][i%6]}deg">${stampSvg(s.k)}<div class="lbl">${esc(s.label)}</div><div class="cnt">${s.done?"הושג":s.have+" מתוך "+s.need}</div></div>`).join("")}</div></div>
+   <div class="block"><h2>סופרים הכול</h2>${COUNTERS.map(c=>`<div class="counter"><span>${esc(c[1])}</span><button data-cnt="${c[0]}" data-d="-1" aria-label="פחות">−</button><span class="n">${state.counters[c[0]]||0}</span><button data-cnt="${c[0]}" data-d="1" aria-label="עוד אחד">+</button></div>`).join("")}</div>`;
+  popId=null;
+}
+function renderBookings(){
+  const n=BOOKINGS.filter((_,i)=>state.bookings["b"+i]).length;
+  $("#v-bookings").innerHTML=`<div class="block"><h2>הזמנות</h2><p class="muted" style="margin:0">${n} מתוך ${BOOKINGS.length} נסגרו.</p><div class="progress"><span style="width:${n/BOOKINGS.length*100}%"></span></div>
+   ${BOOKINGS.map((b,i)=>{const on=!!state.bookings["b"+i];return `<div class="bk${on?" done":""}"><button class="chk" data-bk="b${i}" aria-pressed="${on}" aria-label="סימון: ${esc(b[0])}">${CHECK}</button><div><div class="when">${esc(b[1])}</div><div class="name" style="font-weight:700"><bdi>${esc(b[0])}</bdi></div>${b[2]?`<div class="note muted">${bd(b[2])}</div>`:""}</div></div>`}).join("")}</div>`;
+}
+const RENDER={today:renderToday,route:renderRoute,tools:renderTools,stamps:renderStamps,bookings:renderBookings};
+let tab="today";
+function show(name){
+  if(!RENDER[name])name="today"; tab=name;
+  document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+name);
+  document.querySelectorAll("nav.tabs a").forEach(a=>a.dataset.tab===name?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+  RENDER[name](); window.scrollTo(0,0);
+}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600);}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-check]");
+  if(c){
+    const id=c.dataset.check, before=stampList().filter(s=>s.done).map(s=>s.id), on=!state.checks[id];
+    save({checks:{[id]:on}});
+    document.querySelectorAll(`[data-stop="${id}"]`).forEach(s=>{s.classList.toggle("done",on);s.querySelector(".chk").setAttribute("aria-pressed",on);});
+    const di=+id.match(/^d(\d+)/)[1],[a,b]=dayProgress(di);
+    document.querySelectorAll(`[data-prog="${di}"]`).forEach(p=>p.style.width=(b?a/b*100:0)+"%");
+    const fresh=stampList().filter(s=>s.done&&!before.includes(s.id));
+    if(fresh.length){popId=fresh[0].id;toast("חותמת חדשה: "+fresh[0].label);}
+    if(state.favs[id])RENDER[tab]();
+    return;
+  }
+  const d=e.target.closest("[data-day]"); if(d){routeDay=+d.dataset.day;renderRoute();return;}
+  const bk=e.target.closest("[data-bk]"); if(bk){save({bookings:{[bk.dataset.bk]:!state.bookings[bk.dataset.bk]}});renderBookings();return;}
+  const cn=e.target.closest("[data-cnt]"); if(cn){const k=cn.dataset.cnt;save({counters:{[k]:Math.max(0,(state.counters[k]||0)+(+cn.dataset.d))}});cn.parentElement.querySelector(".n").textContent=state.counters[k];return;}
+  const y=e.target.closest("[data-yen]"); if(y){yen=y.dataset.yen;$("#yen").value=yen;updConv();return;}
+  const p=e.target.closest("[data-phrase]"); if(p){openPhrase(+p.dataset.phrase);return;}
+  if(e.target.id==="ovClose"){$("#overlay").hidden=true;if(tts)try{tts.stop();}catch(_){ }return;}
+  if(e.target.id==="ovSpeak"&&tts){tts.speak(PHRASES[curPhrase][1],{language:"ja"}).catch(()=>{});return;}
+  if(e.target.id==="aiAsk"){askGuide();return;}
+  const fv=e.target.closest("[data-fav]"); if(fv){const id=fv.dataset.fav;save({favs:{[id]:!state.favs[id]}});RENDER[tab]();return;}
+  const af=e.target.closest("[data-addfav]"); if(af){addFav=!addFav;af.setAttribute("aria-pressed",addFav);return;}
+  const ao=e.target.closest("[data-addopen]"); if(ao){addOpen=+ao.dataset.addopen;addSec=0;addFav=false;RENDER[tab]();const f=document.querySelector("#v-"+tab+' [data-f="name"]');if(f)f.focus();return;}
+  if(e.target.closest("[data-addcancel]")){addOpen=null;RENDER[tab]();return;}
+  const pk=e.target.closest("[data-pick]"); if(pk){addSec=+pk.dataset.pick;pk.parentElement.querySelectorAll("[data-pick]").forEach(b=>b.setAttribute("aria-pressed",b===pk));return;}
+  const as=e.target.closest("[data-addsave]"); if(as){addItem(as.closest(".addform"));return;}
+  const dl=e.target.closest("[data-del]"); if(dl){const id=dl.dataset.del;save({custom:{[id]:{del:true}},checks:{[id]:false},favs:{[id]:false}});RENDER[tab]();toast("הוסר מהיום");return;}
+  if(e.target.id==="modeBtn"){mode=MODES[(MODES.indexOf(mode)+1)%3];try{localStorage.setItem(MODE_KEY,mode);}catch(_){ }applyPhase();RENDER[tab]();return;}
+});
+let noteTimer=null;
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.note){const k=t.dataset.note,v=t.value;state.notes[k]=v;saveLocal();clearTimeout(noteTimer);noteTimer=setTimeout(()=>save({notes:{[k]:v}}),1200);}
+  else if(t.id==="yen"){yen=t.value;updConv();}
+  else if(t.id==="rate"){const r=parseFloat(t.value);if(r>0){clearTimeout(noteTimer);state.rate=r;saveLocal();updConv();noteTimer=setTimeout(()=>save({rate:r}),1200);}}
+});
+document.addEventListener("change",e=>{if(e.target.id==="aiPhoto"&&e.target.files&&e.target.files[0]){translateMenu(e.target.files[0]);e.target.value="";}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#overlay").hidden=true;if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.f){e.preventDefault();addItem(e.target.closest(".addform"));}});
+let curPhrase=0;
+function openPhrase(i){curPhrase=i;const p=PHRASES[i];$("#ovJa").textContent=p[1];$("#ovRo").textContent=p[2];$("#ovHe").textContent=p[0];$("#ovSpeak").hidden=!tts;$("#overlay").hidden=false;$("#ovClose").focus();}
+
+/* ---------- Claude guide ---------- */
+function planText(di){const D=DAYS[di];return `${D.d} (${CITY[D.city].he}, לינה: ${D.hotel}) – ${D.title}\n`+D.secs.map((s,si)=>`${s[0]} ${s[1]}: `+s[2].map(t=>t[0]+(t[2]?" ("+t[2]+")":"")).concat(customFor(di,si).map(x=>x[1].name+(x[1].note?" ("+x[1].note+")":""))).join("; ")).join("\n")+(dayStops(di).some(x=>state.favs[x.id])?"\nחובה מבחינתנו: "+dayStops(di).filter(x=>state.favs[x.id]).map(x=>x.t[0]).join("; "):"");}
+function guideContext(){
+  const jst=jstParts(); let di=DAYS.findIndex(x=>x.d===jst.date); const pre=di<0;
+  if(di<0)di=0;
+  return `אתה מדריך טיולים אישי לזוג ישראלי בירח דבש ביפן (29.11–20.12.2026). ענה בעברית, קצר ומעשי, בלי כותרות ובלי עיצוב Markdown. השעה עכשיו ביפן: ${jst.date} ${jst.time}.${pre?" הטיול עדיין לא התחיל.":""}\nהתוכנית הרלוונטית:\n${planText(di)}${di+1<DAYS.length?"\n\nלמחרת:\n"+planText(di+1):""}\n\nסדר הערים: טוקיו (צוקיג׳י) → קנאזווה → אוסקה → קיוטו → האקונה → טוקיו (שינג׳וקו). אם אינך בטוח בעובדה (שעות פתיחה, מחירים), אמור זאת.`;
+}
+async function runAi(prompt,opts){
+  const out=$("#aiA"),btn=$("#aiAsk"); if(!ai||!out)return;
+  out.hidden=false;out.textContent="חושב…";btn.disabled=true;
+  try{const r=await ai(prompt,Object.assign({cache:false,onText:u=>{const o=$("#aiA");if(o)o.textContent=u.text;}},opts||{}));const o=$("#aiA");if(o)o.textContent=r.text;}
+  catch(err){const o=$("#aiA");const c=err&&err.code;if(o)o.textContent=c==="not_granted"?"צריך לאשר ל-Claude לענות כדי להשתמש במדריך.":c==="rate_limited"?"יותר מדי שאלות ברצף. נסו שוב בעוד רגע.":c==="image_rejected"?"התמונה לא התקבלה. נסו לצלם שוב, קרוב יותר.":"לא הצלחנו לקבל תשובה. בדקו את החיבור ונסו שוב.";}
+  finally{const b=$("#aiAsk");if(b)b.disabled=false;}
+}
+function askGuide(){const q=($("#aiQ").value||"").trim();if(!q){$("#aiQ").focus();return;}runAi(guideContext()+"\n\nהשאלה: "+q);}
+function translateMenu(file){runAi("בתמונה תפריט או שלט ביפנית. תרגם לעברית את המנות או הטקסט, בשורות קצרות, עם המחיר אם מופיע. ליד כל מנה ציין את המרכיב העיקרי (בקר, עוף, חזיר, דגים או פירות ים, צמחוני) אם אפשר לדעת. בלי עיצוב Markdown.",{images:[file]});}
+
+/* ---------- boot ---------- */
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+(function(){const j=jstParts();const i=DAYS.findIndex(x=>x.d===j.date);routeDay=i<0?0:i;})();
+applyPhase();
+show(location.hash.slice(1)||"today");
+setInterval(()=>{if(applyPhase())rerenderSafe();const j=jstParts();document.querySelectorAll('[data-clock="jp"]').forEach(e=>e.textContent=j.time);document.querySelectorAll('[data-clock="il"]').forEach(e=>e.textContent=ilTime());},30000);
+
+function rerenderSafe(){const a=document.activeElement;if(a&&(a.tagName==="TEXTAREA"||a.tagName==="INPUT"))return;RENDER[tab]();}
+(async function(){
+  if(!window.claude||!window.claude.use)return;
+  window.claude.use("sample").then(async s=>{if(!s)return;ai=s;try{const l=await s.limits();aiImages=!!(l&&l.images);}catch(_){ }if(tab==="tools")rerenderSafe();const b=$("#aiBlock");if(b)b.hidden=false;const p=$("#aiPhotoLbl");if(p)p.hidden=!aiImages;});
+  window.claude.use("tts").then(t=>{tts=t||null;});
+  const db=await window.claude.use("db"); if(!db)return;
+  try{
+    docRef=db.doc("trip/state");
+    const snap=await docRef.get();
+    if(snap.exists){merge(state,snap.data());saveLocal();shared=true;}
+    else{try{await docRef.set(JSON.parse(JSON.stringify(state)));shared=true;}catch(_){shared=false;}}
+    setSync();rerenderSafe();
+    docRef.onSnapshot(s=>{if(!s.exists||s.metadata.hasPendingWrites)return;const before=JSON.stringify(state);merge(state,s.data());if(JSON.stringify(state)!==before){saveLocal();rerenderSafe();}},()=>{shared=false;setSync();});
+  }catch(_){shared=false;setSync();}
+})();
+</script>
+</body>
+</html>
