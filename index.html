@@ -119,6 +119,18 @@ textarea{width:100%;min-height:92px;border:1.5px solid var(--line);border-radius
 .mine{font-size:11.5px;font-weight:700;color:var(--honey-ink);background:color-mix(in srgb,var(--honey) 20%,transparent);border-radius:99px;padding:1px 8px;margin-inline-start:8px;vertical-align:1px;white-space:nowrap}
 .del{border:0;background:none;padding:2px 0;font-size:13px;color:var(--ink2);text-decoration:underline}
 .acts{display:flex;gap:6px}
+.trivia{list-style:none;margin:0;padding:0}
+.trivia li{position:relative;padding:9px 0;padding-inline-start:22px;border-bottom:1px solid var(--line);font-size:15.5px;line-height:1.45}
+.trivia li:last-child{border-bottom:0}
+.trivia li::before{content:"";position:absolute;inset-inline-start:2px;top:17px;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.msgs{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.msgs:empty{margin:6px 0}
+.msg{max-width:88%;padding:10px 14px;border-radius:18px;white-space:pre-wrap;font-size:16px;line-height:1.45;overflow-wrap:anywhere}
+.msg.me{align-self:flex-start;background:var(--ink);color:var(--bg);border-start-start-radius:6px}
+.msg.ai{align-self:flex-end;background:var(--soft);border-start-end-radius:6px}
+.msg.err{background:var(--red-soft)}
+.ideas{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.idea{text-align:start;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:9px 13px;font-size:15px}
 .star{width:36px;height:36px;border-radius:50%;border:0;background:var(--soft);display:grid;place-items:center;color:var(--ink2);padding:0}
 .star svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
 .star[aria-pressed="true"]{background:color-mix(in srgb,var(--honey) 28%,var(--card));color:var(--honey-ink)}
@@ -209,8 +221,8 @@ textarea{width:100%;min-height:92px;border:1.5px solid var(--line);border-radius
 
 /* floating tab bar */
 nav.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:0 14px calc(12px + env(safe-area-inset-bottom,0px));z-index:20;pointer-events:none}
-nav.tabs .in{pointer-events:auto;display:grid;grid-template-columns:repeat(5,1fr);width:100%;max-width:440px;background:var(--bar);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--barline);border-radius:24px;padding:6px;box-shadow:var(--lift)}
-nav.tabs a{text-decoration:none;color:var(--ink2);text-align:center;padding:6px 2px 7px;font-size:12.5px;font-weight:600;border-radius:18px;transition:background .2s,color .2s}
+nav.tabs .in{pointer-events:auto;display:grid;grid-template-columns:repeat(6,1fr);width:100%;max-width:480px;background:var(--bar);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--barline);border-radius:24px;padding:6px;box-shadow:var(--lift)}
+nav.tabs a{text-decoration:none;color:var(--ink2);text-align:center;padding:6px 0 7px;font-size:12px;font-weight:600;border-radius:18px;transition:background .2s,color .2s}
 nav.tabs a .k{display:block;font-family:var(--jp);font-weight:700;font-size:20px;line-height:1.25}
 nav.tabs a[aria-current="page"]{background:var(--red);color:#fff}
 .toast{position:fixed;bottom:calc(100px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--red);color:#fff;padding:10px 20px;border-radius:99px;font-weight:700;z-index:40;max-width:90vw;text-align:center;box-shadow:var(--lift)}
@@ -225,11 +237,13 @@ nav.tabs a[aria-current="page"]{background:var(--red);color:#fff}
   <section class="view" id="v-route" hidden></section>
   <section class="view" id="v-tools" hidden></section>
   <section class="view" id="v-stamps" hidden></section>
+  <section class="view" id="v-chat" hidden></section>
   <section class="view" id="v-bookings" hidden></section>
 </main>
 <nav class="tabs" aria-label="ניווט"><div class="in">
   <a href="#today" data-tab="today"><span class="k">今</span>היום</a>
   <a href="#route" data-tab="route"><span class="k">道</span>מסלול</a>
+  <a href="#chat" data-tab="chat"><span class="k">話</span>צ׳אט</a>
   <a href="#tools" data-tab="tools"><span class="k">具</span>כלים</a>
   <a href="#stamps" data-tab="stamps"><span class="k">印</span>חותמות</a>
   <a href="#bookings" data-tab="bookings"><span class="k">券</span>הזמנות</a>
@@ -655,6 +669,24 @@ function addItem(form){
   save(Object.assign({custom:{[id]:{d:di,s:addSec,name,note,del:false}}},addFav?{favs:{[id]:true}}:{}));
   addOpen=null; RENDER[tab](); toast("נוסף ל-"+fmtDate(DAYS[di].d));
 }
+const FACTS={
+ japan:["יפן מורכבת מיותר מ-14,000 איים. בספירה מחודשת ב-2023 המספר הרשמי יותר מהוכפל.","השינקנסן פועל מאז 1964, והאיחור הממוצע שלו נמדד בשניות.","ביפן יש מיליוני מכונות ממכר, בערך אחת לכל 30 תושבים.","לא משאירים טיפ. שירות טוב נחשב חלק מהעבודה, וטיפ עלול לבלבל את המלצר."],
+ tokyo:["עד 1868 העיר נקראה אדו. השם טוקיו פירושו ״הבירה המזרחית״.","בטוקיו רבתי חיים כ-37 מיליון איש, האזור העירוני המאוכלס בעולם.","תחנת שינג׳וקו היא העמוסה בעולם, עם יותר מ-3 מיליון נוסעים ביום.","במעבר החצייה של שיבויה חוצים בשעות העומס עד כ-3,000 איש ברמזור אחד.","הכלב האצ׳יקו חיכה לבעליו בתחנת שיבויה כמעט עשר שנים אחרי מותו, עד 1935.","מגדל טוקיו נבנה ב-1958 בהשראת מגדל אייפל, והוא גבוה ממנו במעט: 333 מטרים.","סנסו-ג׳י הוא המקדש העתיק בטוקיו. לפי המסורת הוא נוסד בשנת 645.","בטוקיו יש יותר מסעדות עם כוכבי מישלן מבכל עיר אחרת בעולם."],
+ kanazawa:["פירוש השם קנאזווה הוא ״ביצת הזהב״. כמעט כל עלי הזהב של יפן מיוצרים כאן.","קנרוקואן נחשב לאחד משלושת הגנים הגדולים של יפן. שמו פירושו ״גן שש המעלות״.","חבלי ה-Yukizuri מגנים על ענפי האורן מהשלג הכבד והרטוב של האזור. מתחילים לקשור אותם ב-1 בנובמבר.","העיר לא הופצצה במלחמת העולם השנייה, ולכן רובעי הסמוראים ובתי התה נשמרו.","שבט מאאדה שלט כאן כ-300 שנה, ונחלת קאגה הייתה העשירה ביפן אחרי זו של השוגון."],
+ osaka:["אוסקה מכונה ״המטבח של האומה״, כבר מהתקופה שבה האורז של כל יפן נסחר כאן.","המוטו המקומי הוא kuidaore: לאכול עד שמתרוששים.","באוסקה עומדים בצד ימין של המדרגות הנעות. בטוקיו עומדים בשמאל.","שלט האצן של גליקו מאיר את דוטונבורי מאז 1935. הגרסה הנוכחית היא השישית.","טירת אוסקה נבנתה ב-1583 בידי טויוטומי הידיושי. המגדל שרואים היום הוא שחזור מ-1931.","האטריות המיידיות הומצאו במחוז אוסקה ב-1958, בידי מומופוקו אנדו."],
+ kyoto:["קיוטו הייתה בירת יפן יותר מאלף שנה, מ-794 ועד 1868.","בעיר יש כ-1,600 מקדשים בודהיסטיים וכ-400 מקדשי שינטו, ו-17 אתרי מורשת עולמית.","קיוטו הוסרה מרשימת המטרות לפצצת האטום, בין השאר בגלל ערכה התרבותי.","נינטנדו נוסדה בקיוטו ב-1889, כיצרנית של קלפי משחק מסורתיים.","מקדש הזהב שרואים היום נבנה מחדש ב-1955, אחרי שנזיר צעיר הצית את המקורי ב-1950.","במת העץ של קיומיזו-דרה נבנתה בלי מסמר אחד. ״לקפוץ מבמת קיומיזו״ הוא ביטוי יפני להחלטה נועזת.","בפושימי אינארי יש כ-10,000 שערי טוריאי. כל אחד נתרם בידי אדם או עסק, והשם חרוט על גבו."],
+ hakone:["לפי האגדה, כל ביצה שחורה מאוואקודאני מוסיפה שבע שנות חיים.","עמק אוואקודאני ואגם אשי נוצרו שניהם בהתפרצות געשית לפני כ-3,000 שנה.","בתקופת אדו האקונה הייתה מחסום ביקורת על דרך הטוקאידו בין אדו לקיוטו. שדרת הארזים היא שריד שלה.","הר פוג׳י מתנשא לגובה 3,776 מטרים. ההתפרצות האחרונה שלו הייתה ב-1707.","רכבת ההרים Hakone Tozan מטפסת בזיגזג, ומחליפה כיוון שלוש פעמים בדרך למעלה."]
+};
+const DAYFACTS={
+ "2026-12-05":["בתי הגאשו-זוקורי נקראים כך כי הגג דומה לכפות ידיים בתפילה. השיפוע התלול מונע מהשלג להצטבר.","הגגות נבנו בלי מסמרים, ובעליות הגג גידלו בעבר תולעי משי.","שיראקאווה-גו הוכרז אתר מורשת עולמית ב-1995."],
+ "2026-12-07":["Super Nintendo World הראשון בעולם נפתח כאן, ב-2021."],
+ "2026-12-12":["האיילים של נארה נחשבו במשך מאות שנים לשליחי האלים, ופגיעה בהם הייתה עבירה חמורה.","נארה הייתה הבירה הקבועה הראשונה של יפן, משנת 710.","אולם הבודהה בטודאי-ג׳י הוא אחד ממבני העץ הגדולים בעולם.","אולם הפניקס של ביודו-אין מופיע על מטבע ה-10 ין. הפרקים האחרונים של ״מעשה גנג׳י״ מתרחשים באוג׳י."],
+ "2026-12-16":["DisneySea נפתח ב-2001, והוא פארק דיסני היחיד בעולם שכולו בנושא הים."]
+};
+function factsHtml(di){
+  const D=di==null?null:DAYS[di], L=D?(DAYFACTS[D.d]||[]).concat(FACTS[D.city]):FACTS.japan;
+  return `<div class="block"><h2>ידעתם?</h2><p class="muted" style="margin:0 0 6px">${D?"על "+esc(CITY[D.city].he)+" ועל המקומות של היום.":"כמה דברים על יפן, עד שנגיע."}</p><ul class="trivia">${L.map(f=>`<li>${bd(f)}</li>`).join("")}</ul></div>`;
+}
 function noteHtml(di){const k="n"+DAYS[di].d.slice(5).replace("-","");return `<div class="block"><h2>רגע היום</h2><p class="muted" style="margin:0 0 8px">משפט אחד שנרצה לזכור מהיום הזה.</p><textarea data-note="${k}" placeholder="למשל: הפחזנית של טוטורו הייתה שווה את התור">${esc(state.notes[k]||"")}</textarea></div>`;}
 const SC={far:"#1A2260",mid:"#10163F",near:"#070A20",red:"#E0492F",honey:"#F6C55A"};
 const SCENES={
@@ -691,7 +723,7 @@ function renderToday(){
     h+=heroHtml({c:"var(--kyoto)",scene:"hakone",p:0.08,pills:`<span class="pill">המראה ב-<span class="ltr">29.11</span></span>`,
       num:`<b>${n}</b> ${n===1?"יום":"ימים"} לטיסה`,title:"22 ימים, 5 ערים, ירח דבש אחד.",prog:bdone/BOOKINGS.length*100,
       facts:[["הזמנות שנסגרו",`${bdone} מתוך ${BOOKINGS.length}`],["השעה עכשיו ביפן",jst.time,' class="ltr" data-clock="jp"']]});
-    h+=`<div class="block"><h2>מה נשאר לסגור</h2>${BOOKINGS.map((b,i)=>state.bookings["b"+i]?"":`<div class="todo"><span class="bk"><span class="when" style="border:0;padding:1px 9px">${esc(b[1])}</span></span><bdi style="font-weight:600">${esc(b[0])}</bdi></div>`).join("")||'<p class="muted">הכול סגור. נשאר רק לארוז.</p>'}<div class="row"><a class="btn" href="#bookings" style="text-decoration:none">לרשימת ההזמנות</a><a class="btn ghost" href="#route" style="text-decoration:none">למסלול</a></div></div>`;
+    h+=`<div class="block"><h2>מה נשאר לסגור</h2>${bdone===BOOKINGS.length?'<p class="muted" style="margin:0 0 4px">הכול סגור. נשאר רק לארוז.</p>':''}${BOOKINGS.map((b,i)=>[b,i]).sort((x,y)=>(state.bookings["b"+x[1]]?1:0)-(state.bookings["b"+y[1]]?1:0)).map(([b,i])=>{const on=!!state.bookings["b"+i];return `<div class="bk${on?" done":""}"><button class="chk" data-bk="b${i}" aria-pressed="${on}" aria-label="סימון: ${esc(b[0])}">${CHECK}</button><div><div class="when">${esc(b[1])}</div><div class="name" style="font-weight:700"><bdi>${esc(b[0])}</bdi></div></div></div>`;}).join("")}<div class="row"><a class="btn" href="#bookings" style="text-decoration:none">לרשימת ההזמנות</a><a class="btn ghost" href="#route" style="text-decoration:none">למסלול</a></div></div>`+factsHtml(null);
     el.innerHTML=h; return;
   }
   if(di<0){
@@ -704,6 +736,7 @@ function renderToday(){
   h+=ticketHtml(di,jst);
   h+=`<div class="block"><div class="lug"><span class="ic" aria-hidden="true">🧳</span><span>${bd(luggage(D.d))}</span></div></div>`;
   h+=`<div class="block"><h2>התוכנית להיום</h2>${stopsHtml(di,jst.h)}</div>`;
+  h+=factsHtml(di);
   h+=noteHtml(di);
   if(di+1<DAYS.length)h+=`<div class="block"><h3>מחר: ${esc(DAYS[di+1].title)}</h3><p class="muted" style="margin:4px 0 0">${esc(DAYS[di+1].secs[0][2][0][0])} ב-<span class="ltr">${DAYS[di+1].secs[0][1].slice(0,5)}</span></p></div>`;
   el.innerHTML=h;
@@ -715,7 +748,7 @@ function renderRoute(){
   h+=`<div class="block" style="--c:${C.c};margin-top:2px;border-top:5px solid ${C.c}"><div class="dayhead"><span class="muted">יום ${routeDay+1}, ${wd(D.d)} ${fmtDate(D.d)}</span><span class="tag">${esc(C.he)} <span class="jp">${C.jp}</span></span></div>
   <div class="daytitle">${esc(D.title)}</div><div class="muted">לינה: <bdi>${esc(D.hotel)}</bdi>. ${bd(luggage(D.d))}</div>
   <div class="progress"><span style="width:${tot?done/tot*100:0}%" data-prog="${routeDay}"></span></div>
-  ${stopsHtml(routeDay,D.d===jst.date?jst.h:null)}</div>`+noteHtml(routeDay);
+  ${stopsHtml(routeDay,D.d===jst.date?jst.h:null)}</div>`+factsHtml(routeDay)+noteHtml(routeDay);
   el.innerHTML=h;
   const cur=el.querySelector('.st[aria-current="true"]'); if(cur)cur.scrollIntoView({inline:"center",block:"nearest"});
 }
@@ -727,10 +760,7 @@ function renderTools(){
    <div class="chips">${[500,1000,3000,5000,10000].map(v=>`<button class="chip ltr" data-yen="${v}">¥${v.toLocaleString("en")}</button>`).join("")}</div>
    <div class="rate"><label for="rate">השער שלנו: 100 ין =</label><input id="rate" inputmode="decimal" value="${esc(state.rate)}"><span>₪</span></div><p class="muted" style="margin:6px 0 0">ערך משוער. עדכנו לפי השער ביום ההמרה.</p></div>
 
-  <div class="block" id="aiBlock"${ai?"":" hidden"}><h2>שאלו את המדריך</h2><p class="muted" style="margin:0 0 8px">Claude מכיר את המסלול שלנו. אפשר לשאול מה לעשות אם יורד גשם, איך מגיעים, או מה להזמין.</p>
-   <textarea id="aiQ" placeholder="למשל: יורד גשם ונשארו לנו שעתיים באזור. מה עושים?"></textarea>
-   <div class="row"><button class="btn" id="aiAsk">שאלו</button><label class="btn ghost" id="aiPhotoLbl"${aiImages?"":" hidden"}>תרגום תפריט מתמונה<input type="file" id="aiPhoto" accept="image/*" capture="environment" hidden></label></div>
-   <div class="answer" id="aiA" hidden></div></div>
+  <div class="block"><h3>יש שאלה?</h3><p class="muted" style="margin:4px 0 0">לשאלות ולתרגום תפריט מתמונה עוברים ללשונית צ׳אט.</p><div class="row"><a class="btn" href="#chat" style="text-decoration:none">לצ׳אט</a></div></div>
 
   <div class="block"><h2>משפטים להראות</h2><p class="muted" style="margin:0 0 4px">לחיצה מציגה את המשפט בגדול, כדי להראות למלצר או לפקיד.</p>
    ${PHRASES.map((p,i)=>`<button class="phrase" data-phrase="${i}"><span><span class="he">${esc(p[0])}</span><br><span class="ja">${p[1]}</span><br><span class="ro">${esc(p[2])}</span></span><span class="show">הצגה</span></button>`).join("")}</div>
@@ -775,13 +805,13 @@ function renderBookings(){
   $("#v-bookings").innerHTML=`<div class="block"><h2>הזמנות</h2><p class="muted" style="margin:0">${n} מתוך ${BOOKINGS.length} נסגרו.</p><div class="progress"><span style="width:${n/BOOKINGS.length*100}%"></span></div>
    ${BOOKINGS.map((b,i)=>{const on=!!state.bookings["b"+i];return `<div class="bk${on?" done":""}"><button class="chk" data-bk="b${i}" aria-pressed="${on}" aria-label="סימון: ${esc(b[0])}">${CHECK}</button><div><div class="when">${esc(b[1])}</div><div class="name" style="font-weight:700"><bdi>${esc(b[0])}</bdi></div>${b[2]?`<div class="note muted">${bd(b[2])}</div>`:""}</div></div>`}).join("")}</div>`;
 }
-const RENDER={today:renderToday,route:renderRoute,tools:renderTools,stamps:renderStamps,bookings:renderBookings};
+const RENDER={today:renderToday,route:renderRoute,chat:renderChat,tools:renderTools,stamps:renderStamps,bookings:renderBookings};
 let tab="today";
 function show(name){
   if(!RENDER[name])name="today"; tab=name;
   document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+name);
   document.querySelectorAll("nav.tabs a").forEach(a=>a.dataset.tab===name?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
-  RENDER[name](); window.scrollTo(0,0);
+  RENDER[name](); window.scrollTo(0,0); if(name==="chat"&&chat.length)chatScroll();
 }
 function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600);}
 
@@ -800,13 +830,15 @@ document.addEventListener("click",e=>{
     return;
   }
   const d=e.target.closest("[data-day]"); if(d){routeDay=+d.dataset.day;renderRoute();return;}
-  const bk=e.target.closest("[data-bk]"); if(bk){save({bookings:{[bk.dataset.bk]:!state.bookings[bk.dataset.bk]}});renderBookings();return;}
+  const bk=e.target.closest("[data-bk]"); if(bk){save({bookings:{[bk.dataset.bk]:!state.bookings[bk.dataset.bk]}});RENDER[tab]();return;}
   const cn=e.target.closest("[data-cnt]"); if(cn){const k=cn.dataset.cnt;save({counters:{[k]:Math.max(0,(state.counters[k]||0)+(+cn.dataset.d))}});cn.parentElement.querySelector(".n").textContent=state.counters[k];return;}
   const y=e.target.closest("[data-yen]"); if(y){yen=y.dataset.yen;$("#yen").value=yen;updConv();return;}
   const p=e.target.closest("[data-phrase]"); if(p){openPhrase(+p.dataset.phrase);return;}
   if(e.target.id==="ovClose"){$("#overlay").hidden=true;if(tts)try{tts.stop();}catch(_){ }return;}
   if(e.target.id==="ovSpeak"&&tts){tts.speak(PHRASES[curPhrase][1],{language:"ja"}).catch(()=>{});return;}
-  if(e.target.id==="aiAsk"){askGuide();return;}
+  if(e.target.id==="chatSend"){const q=$("#chatQ");const v=q.value;if(!v.trim()){q.focus();return;}if(ai)q.value="";sendChat(v);return;}
+  if(e.target.id==="chatClear"){chat=[];saveChat();renderChat();return;}
+  const idea=e.target.closest("[data-idea]"); if(idea){sendChat(CHAT_IDEAS[+idea.dataset.idea]);return;}
   const fv=e.target.closest("[data-fav]"); if(fv){const id=fv.dataset.fav;save({favs:{[id]:!state.favs[id]}});RENDER[tab]();return;}
   const af=e.target.closest("[data-addfav]"); if(af){addFav=!addFav;af.setAttribute("aria-pressed",addFav);return;}
   const ao=e.target.closest("[data-addopen]"); if(ao){addOpen=+ao.dataset.addopen;addSec=0;addFav=false;RENDER[tab]();const f=document.querySelector("#v-"+tab+' [data-f="name"]');if(f)f.focus();return;}
@@ -823,7 +855,7 @@ document.addEventListener("input",e=>{
   else if(t.id==="yen"){yen=t.value;updConv();}
   else if(t.id==="rate"){const r=parseFloat(t.value);if(r>0){clearTimeout(noteTimer);state.rate=r;saveLocal();updConv();noteTimer=setTimeout(()=>save({rate:r}),1200);}}
 });
-document.addEventListener("change",e=>{if(e.target.id==="aiPhoto"&&e.target.files&&e.target.files[0]){translateMenu(e.target.files[0]);e.target.value="";}});
+document.addEventListener("change",e=>{if(e.target.id==="chatPhoto"&&e.target.files&&e.target.files[0]){sendChat(MENU_PROMPT,e.target.files[0]);e.target.value="";}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#overlay").hidden=true;if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.f){e.preventDefault();addItem(e.target.closest(".addform"));}});
 let curPhrase=0;
 function openPhrase(i){curPhrase=i;const p=PHRASES[i];$("#ovJa").textContent=p[1];$("#ovRo").textContent=p[2];$("#ovHe").textContent=p[0];$("#ovSpeak").hidden=!tts;$("#overlay").hidden=false;$("#ovClose").focus();}
@@ -833,17 +865,40 @@ function planText(di){const D=DAYS[di];return `${D.d} (${CITY[D.city].he}, לי�
 function guideContext(){
   const jst=jstParts(); let di=DAYS.findIndex(x=>x.d===jst.date); const pre=di<0;
   if(di<0)di=0;
-  return `אתה מדריך טיולים אישי לזוג ישראלי בירח דבש ביפן (29.11–20.12.2026). ענה בעברית, קצר ומעשי, בלי כותרות ובלי עיצוב Markdown. השעה עכשיו ביפן: ${jst.date} ${jst.time}.${pre?" הטיול עדיין לא התחיל.":""}\nהתוכנית הרלוונטית:\n${planText(di)}${di+1<DAYS.length?"\n\nלמחרת:\n"+planText(di+1):""}\n\nסדר הערים: טוקיו (צוקיג׳י) → קנאזווה → אוסקה → קיוטו → האקונה → טוקיו (שינג׳וקו). אם אינך בטוח בעובדה (שעות פתיחה, מחירים), אמור זאת.`;
+  return `אתה מדריך טיולים אישי לזוג ישראלי בירח דבש ביפן (29.11–20.12.2026). ענה בעברית, קצר ומעשי, בלי כותרות ובלי עיצוב Markdown. מותר לשאול אותך גם על כל נושא אחר, לא רק על הטיול. השעה עכשיו ביפן: ${jst.date} ${jst.time}.${pre?" הטיול עדיין לא התחיל.":""}\nהתוכנית הרלוונטית:\n${planText(di)}${di+1<DAYS.length?"\n\nלמחרת:\n"+planText(di+1):""}\n\nסדר הערים: טוקיו (צוקיג׳י) → קנאזווה → אוסקה → קיוטו → האקונה → טוקיו (שינג׳וקו). אם אינך בטוח בעובדה (שעות פתיחה, מחירים), אמור זאת.`;
 }
-async function runAi(prompt,opts){
-  const out=$("#aiA"),btn=$("#aiAsk"); if(!ai||!out)return;
-  out.hidden=false;out.textContent="חושב…";btn.disabled=true;
-  try{const r=await ai(prompt,Object.assign({cache:false,onText:u=>{const o=$("#aiA");if(o)o.textContent=u.text;}},opts||{}));const o=$("#aiA");if(o)o.textContent=r.text;}
-  catch(err){const o=$("#aiA");const c=err&&err.code;if(o)o.textContent=c==="not_granted"?"צריך לאשר ל-Claude לענות כדי להשתמש במדריך.":c==="rate_limited"?"יותר מדי שאלות ברצף. נסו שוב בעוד רגע.":c==="image_rejected"?"התמונה לא התקבלה. נסו לצלם שוב, קרוב יותר.":"לא הצלחנו לקבל תשובה. בדקו את החיבור ונסו שוב.";}
-  finally{const b=$("#aiAsk");if(b)b.disabled=false;}
+const CHAT_KEY="jp-chat-v1"; let chat=[], chatBusy=false;
+try{const c=JSON.parse(localStorage.getItem(CHAT_KEY)||"[]"); if(Array.isArray(c))chat=c.filter(m=>m&&m.content).slice(-40);}catch(e){}
+function saveChat(){try{localStorage.setItem(CHAT_KEY,JSON.stringify(chat.slice(-40)));}catch(e){}}
+const CHAT_IDEAS=["ספר לנו משהו מעניין על המקום שאנחנו בו","יורד גשם. מה עושים עם התוכנית של היום?","מה שווה לאכול באזור?","על מה אפשר לוותר היום אם נגמר הכוח?"];
+const MENU_PROMPT="בתמונה תפריט או שלט ביפנית. תרגם לעברית את המנות או הטקסט, בשורות קצרות, עם המחיר אם מופיע. ליד כל מנה ציין את המרכיב העיקרי (בקר, עוף, חזיר, דגים או פירות ים, צמחוני) אם אפשר לדעת.";
+function renderChat(){
+  const el=$("#v-chat");
+  el.innerHTML=`<div class="block"><h2>שאלו כל דבר</h2><p class="muted" style="margin:0">${ai?"Claude מכיר את המסלול, את היום שבו אנחנו נמצאים ואת מה שסימנו כחובה. אפשר לשאול גם על כל דבר אחר.":"בגרסה הזאת הצ׳אט לא רץ בתוך הדף. כתבו שאלה, והיא תיפתח ב-Claude יחד עם פרטי היום שלנו."}</p>
+   <div class="msgs" id="msgs">${chat.map((m,i)=>`<div class="msg ${m.role==="user"?"me":"ai"}${m.err?" err":""}"${i===chat.length-1&&m.role!=="user"?' id="chatLive"':""}>${esc(m.content)}</div>`).join("")}</div>
+   ${chat.length?"":`<div class="ideas">${CHAT_IDEAS.map((q,i)=>`<button class="idea" data-idea="${i}">${esc(q)}</button>`).join("")}</div>`}
+   <textarea id="chatQ" rows="2" placeholder="מה רוצים לדעת?" aria-label="שאלה"></textarea>
+   <div class="row"><button class="btn" id="chatSend"${chatBusy?" disabled":""}>${ai?"שליחה":"פתיחה ב-Claude"}</button>${ai&&aiImages?`<label class="btn ghost">תרגום תפריט מתמונה<input type="file" id="chatPhoto" accept="image/*" capture="environment" hidden></label>`:""}${chat.length?`<button class="btn ghost" id="chatClear">שיחה חדשה</button>`:""}</div></div>`;
 }
-function askGuide(){const q=($("#aiQ").value||"").trim();if(!q){$("#aiQ").focus();return;}runAi(guideContext()+"\n\nהשאלה: "+q);}
-function translateMenu(file){runAi("בתמונה תפריט או שלט ביפנית. תרגם לעברית את המנות או הטקסט, בשורות קצרות, עם המחיר אם מופיע. ליד כל מנה ציין את המרכיב העיקרי (בקר, עוף, חזיר, דגים או פירות ים, צמחוני) אם אפשר לדעת. בלי עיצוב Markdown.",{images:[file]});}
+function chatScroll(){const q=$("#chatQ"); if(q)q.scrollIntoView({block:"center"});}
+async function sendChat(text,file){
+  text=(text||"").trim(); if(!text||chatBusy)return;
+  if(!ai){window.open("https://claude.ai/new?q="+encodeURIComponent(guideContext()+"\n\nהשאלה: "+text),"_blank","noopener");return;}
+  const hist=chat.filter(m=>!m.skip).slice(-12); while(hist.length&&hist[0].role!=="user")hist.shift();
+  const msgs=hist.map(m=>({role:m.role,content:m.content})); msgs.push({role:"user",content:text});
+  msgs[0]={role:"user",content:guideContext()+"\n\n"+msgs[0].content};
+  const u={role:"user",content:file?"תרגום תפריט מתמונה":text}, a={role:"assistant",content:"חושב…"};
+  if(file)u.skip=a.skip=true;
+  chat.push(u,a); chatBusy=true; renderChat(); chatScroll();
+  try{
+    const res=await ai(msgs,Object.assign({cache:false,onText:x=>{a.content=x.text;const o=document.getElementById("chatLive");if(o)o.textContent=x.text;}},file?{images:[file]}:{}));
+    a.content=res.text;
+  }catch(err){
+    const c=err&&err.code; u.skip=a.skip=true; a.err=true;
+    a.content=c==="not_granted"?"כדי להשתמש בצ׳אט צריך לאשר ל-Claude לענות בדף הזה.":c==="rate_limited"?"יותר מדי שאלות ברצף. נסו שוב בעוד רגע.":c==="image_rejected"?"התמונה לא התקבלה. נסו לצלם שוב, קרוב יותר.":"לא התקבלה תשובה. בדקו את החיבור ונסו שוב.";
+  }
+  chatBusy=false; saveChat(); if(tab==="chat"){renderChat();chatScroll();}
+}
 
 /* ---------- boot ---------- */
 window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
@@ -855,7 +910,7 @@ setInterval(()=>{if(applyPhase())rerenderSafe();const j=jstParts();document.quer
 function rerenderSafe(){const a=document.activeElement;if(a&&(a.tagName==="TEXTAREA"||a.tagName==="INPUT"))return;RENDER[tab]();}
 (async function(){
   if(!window.claude||!window.claude.use)return;
-  window.claude.use("sample").then(async s=>{if(!s)return;ai=s;try{const l=await s.limits();aiImages=!!(l&&l.images);}catch(_){ }if(tab==="tools")rerenderSafe();const b=$("#aiBlock");if(b)b.hidden=false;const p=$("#aiPhotoLbl");if(p)p.hidden=!aiImages;});
+  window.claude.use("sample").then(async s=>{if(!s)return;ai=s;try{const l=await s.limits();aiImages=!!(l&&l.images);}catch(_){ }if(tab==="chat")rerenderSafe();});
   window.claude.use("tts").then(t=>{tts=t||null;});
   const db=await window.claude.use("db"); if(!db)return;
   try{
